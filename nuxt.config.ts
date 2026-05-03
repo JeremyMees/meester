@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@vueuse/nuxt',
     'shadcn-nuxt',
+    '@nuxt/icon',
   ],
 
   i18n: {
