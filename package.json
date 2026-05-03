@@ -12,7 +12,8 @@
     "format": "prettier . --check",
     "format:fix": "prettier . --write",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "deps": "npx taze -w"
   },
   "dependencies": {
     "nuxt": "^4.4.4",
