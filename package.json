@@ -7,6 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "prepare": "husky",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck",
     "format": "prettier . --check",
@@ -23,7 +24,13 @@
   "devDependencies": {
     "@nuxt/eslint": "1.15.2",
     "eslint": "^10.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
     "typescript": "^6.0.3"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": "eslint --fix",
+    "*.{js,ts,vue,css,md,json}": "prettier --write"
   }
 }
