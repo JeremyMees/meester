@@ -9,12 +9,13 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/fonts',
+    '@nuxt/icon',
+    '@nuxt/image',
     '@nuxt/content',
     '@nuxtjs/i18n',
     '@nuxt/eslint',
     '@vueuse/nuxt',
     'shadcn-nuxt',
-    '@nuxt/icon',
   ],
 
   i18n: {
