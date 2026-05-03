@@ -1,7 +1,11 @@
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
 
   devtools: { enabled: true },
+
+  css: ['~/assets/css/tailwind.css'],
 
   modules: ['@nuxt/eslint', '@nuxt/content', '@nuxtjs/i18n'],
 
@@ -15,6 +19,10 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    plugins: [
+      // @ts-expect-error - Type 'Plugin<any>[]' is not assignable to type 'PluginOption'
+      tailwindcss(),
+    ],
     optimizeDeps: {
       include: [],
     },
