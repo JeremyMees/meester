@@ -1,1 +1,110 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-garamond);
+  --font-mono: var(--font-jetbrains);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: oklch(0.9508 0.0148 88.1175);
+  --foreground: oklch(0.1784 0.0102 56.0859);
+  --card: oklch(0.9728 0.0095 88);
+  --card-foreground: oklch(0.1784 0.0102 56.0859);
+  --popover: oklch(0.9728 0.0095 88);
+  --popover-foreground: oklch(0.1784 0.0102 56.0859);
+  --primary: oklch(0.5283 0.1376 42.0124);
+  --primary-foreground: oklch(0.9508 0.0148 88.1175);
+  --secondary: oklch(0.9145 0.0162 87.5);
+  --secondary-foreground: oklch(0.1784 0.0102 56.0859);
+  --muted: oklch(0.9145 0.0162 87.5);
+  --muted-foreground: oklch(0.4456 0.0224 65.45);
+  --accent: oklch(0.5283 0.1376 42.0124);
+  --accent-foreground: oklch(0.9508 0.0148 88.1175);
+  --destructive: oklch(0.577 0.205 27.325);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.1784 0.0102 56.0859 / 0.14);
+  --input: oklch(0.1784 0.0102 56.0859 / 0.14);
+  --ring: oklch(0.5283 0.1376 42.0124);
+
+  --radius: 0.125rem;
+
+  --font-inter: 'Inter Tight', 'Söhne', system-ui, sans-serif;
+  --font-garamond: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
+  --font-jetbrains: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  h1 {
+    @apply font-serif font-normal text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.95] text-foreground;
+    text-wrap: balance;
+  }
+
+  h2 {
+    @apply font-serif font-normal text-4xl md:text-5xl lg:text-6xl tracking-tight leading-none text-foreground;
+    text-wrap: balance;
+  }
+
+  h3 {
+    @apply font-serif font-normal text-2xl md:text-3xl tracking-tight leading-[1.1] text-foreground;
+  }
+
+  h4 {
+    @apply font-sans font-semibold text-xl tracking-tight leading-snug text-foreground;
+  }
+
+  h5 {
+    @apply font-sans font-semibold text-lg tracking-tight leading-snug text-foreground;
+  }
+
+  h6 {
+    @apply font-sans font-medium text-base tracking-tight leading-snug text-foreground;
+  }
+
+  p {
+    @apply font-sans text-base leading-relaxed text-foreground;
+    text-wrap: pretty;
+  }
+
+  .meta {
+    @apply font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}

@@ -7,7 +7,14 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/tailwind.css'],
 
-  modules: ['@nuxt/eslint', '@nuxt/content', '@nuxtjs/i18n'],
+  modules: [
+    '@nuxt/fonts',
+    '@nuxt/content',
+    '@nuxtjs/i18n',
+    '@nuxt/eslint',
+    '@vueuse/nuxt',
+    'shadcn-nuxt',
+  ],
 
   i18n: {
     defaultLocale: 'nl',
@@ -16,6 +23,10 @@ export default defineNuxtConfig({
       { code: 'nl', name: 'Nederlands', file: 'nl.json' },
       { code: 'en', name: 'English', file: 'en.json' },
     ],
+  },
+
+  shadcn: {
+    prefix: '',
   },
 
   vite: {
