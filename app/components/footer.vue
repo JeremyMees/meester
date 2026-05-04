@@ -50,7 +50,7 @@ const socials = ['LinkedIn', 'Instagram']
               class="hover:text-primary transition-colors cursor-pointer flex items-center gap-1"
             >
               {{ social }}
-              <Icon name="lucide:arrow-up-right" />
+              <Icon name="tabler:arrow-up-right" />
             </NuxtLink>
           </li>
         </ul>
