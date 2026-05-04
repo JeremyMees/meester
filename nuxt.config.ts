@@ -5,19 +5,17 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  css: ['~/assets/css/tailwind.css'],
-
   modules: [
     '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxt/image',
-    '@nuxt/content',
     '@nuxtjs/i18n',
     '@nuxt/eslint',
     '@vueuse/nuxt',
     'shadcn-nuxt',
-    'nuxt-studio',
   ],
+
+  css: ['~/assets/css/tailwind.css'],
 
   i18n: {
     defaultLocale: 'nl',
@@ -26,17 +24,6 @@ export default defineNuxtConfig({
       { code: 'nl', name: 'Nederlands', file: 'nl.json' },
       { code: 'en', name: 'English', file: 'en.json' },
     ],
-  },
-
-  studio: {
-    route: '/admin',
-    dev: true,
-    repository: {
-      provider: 'github',
-      owner: 'JeremyMees',
-      repo: 'meester',
-      branch: 'main',
-    },
   },
 
   shadcn: { prefix: '' },
