@@ -28,15 +28,21 @@ export default defineNuxtConfig({
     ],
   },
 
-  studio: { route: '/admin', dev: true },
+  studio: {
+    route: '/admin',
+    dev: true,
+    repository: {
+      provider: 'github',
+      owner: 'JeremyMees',
+      repo: 'meester',
+      branch: 'main',
+    },
+  },
 
   shadcn: { prefix: '' },
 
   vite: {
-    plugins: [
-      // @ts-expect-error - Type 'Plugin<any>[]' is not assignable to type 'PluginOption'
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
     optimizeDeps: {
       include: [],
     },
