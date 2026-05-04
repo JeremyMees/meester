@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@vueuse/nuxt',
     'shadcn-nuxt',
+    'nuxt-studio',
   ],
 
   i18n: {
@@ -27,9 +28,9 @@ export default defineNuxtConfig({
     ],
   },
 
-  shadcn: {
-    prefix: '',
-  },
+  studio: { route: '/admin', dev: true },
+
+  shadcn: { prefix: '' },
 
   vite: {
     plugins: [
