@@ -1,7 +1,6 @@
 {
   "$schema": "https://shadcn-vue.com/schema.json",
   "style": "new-york",
-  "font": "inter",
   "typescript": true,
   "tailwind": {
     "config": "",
@@ -11,7 +10,6 @@
     "prefix": ""
   },
   "iconLibrary": "tabler",
-  "rtl": false,
   "aliases": {
     "components": "@/components",
     "utils": "@/utils/shadcn",
