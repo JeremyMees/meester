@@ -30,7 +30,7 @@ const socials = ['LinkedIn', 'Instagram']
           Location
         </p>
         <p class="font-serif text-[22px] leading-normal text-foreground m-0">
-          Smodderpotstraat 15<br >3293 Kaggevinne, BE
+          Smodderpotstraat 15<br />3293 Kaggevinne, BE
         </p>
         <!-- <p class="meta mt-3">BE 0784.291.103</p> -->
       </div>
