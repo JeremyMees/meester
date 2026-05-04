@@ -29,6 +29,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --spacing-nav: 82px;
 }
 
 :root {
@@ -36,7 +38,7 @@
   --foreground: oklch(0.1784 0.0102 56.0859);
   --card: oklch(0.9728 0.0095 88);
   --card-foreground: oklch(0.1784 0.0102 56.0859);
-  --popover: oklch(0.9728 0.0095 88);
+  --popover: oklch(0.9508 0.0148 88.1175);
   --popover-foreground: oklch(0.1784 0.0102 56.0859);
   --primary: oklch(0.5283 0.1376 42.0124);
   --primary-foreground: oklch(0.9508 0.0148 88.1175);
@@ -106,5 +108,9 @@
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
+  }
+
+  .content-container {
+    @apply max-w-450 mx-auto w-full px-4 md:px-6 lg:px-10;
   }
 }

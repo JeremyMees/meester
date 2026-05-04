@@ -20,7 +20,7 @@ const links = [
 <template>
   <header
     ref="header"
-    class="sticky top-0 z-10 border-b border-border bg-background py-6"
+    class="fixed right-0 left-0 top-0 z-10 border-b border-border bg-background py-[22.5px] md:py-6"
   >
     <div class="content-container flex items-center justify-between">
       <NuxtLinkLocale
