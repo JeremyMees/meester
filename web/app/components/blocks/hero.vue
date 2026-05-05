@@ -7,7 +7,7 @@ defineProps<Hero & BlockMeta & { buttons: LinkButtonWithSlug[] }>()
 
 <template>
   <section class="relative px-14 pt-32 pb-24">
-    <div class="meta mb-10 flex justify-between">
+    <div class="meta mb-10 hidden md:flex justify-between">
       <span>{{ preTitleOne ?? '' }}</span>
       <span>{{ preTitleTwo ?? '' }}</span>
     </div>
