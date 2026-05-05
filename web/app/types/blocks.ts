@@ -1,6 +1,6 @@
 import type { ButtonLink } from '~/types/sanity'
 
-export const BLOCK_TYPES = ['hero'] as const
+export const BLOCK_TYPES = ['hero', 'marquee'] as const
 
 export type BlockType = (typeof BLOCK_TYPES)[number]
 

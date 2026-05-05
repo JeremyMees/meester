@@ -37,4 +37,26 @@ const heroType = defineType({
   ],
 })
 
-export const blockTypes = [heroType]
+const marqueeType = defineType({
+  name: 'marquee',
+  title: 'Marquee',
+  type: 'object',
+  icon: ComponentIcon,
+  fields: [
+    defineField({
+      name: 'items',
+      type: 'array',
+      of: [{ type: 'string' }],
+      validation: rule => rule.required(),
+    }),
+  ],
+  preview: {
+    prepare() {
+      return {
+        title: 'Marquee',
+      }
+    },
+  },
+})
+
+export const blockTypes = [heroType, marqueeType]

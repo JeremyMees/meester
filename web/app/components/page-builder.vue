@@ -7,6 +7,7 @@ defineProps<{
 
 const blockComponents: Record<string, ReturnType<typeof resolveComponent>> = {
   hero: resolveComponent('BlocksHero'),
+  marquee: resolveComponent('BlocksMarquee'),
 }
 </script>
 

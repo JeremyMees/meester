@@ -46,6 +46,13 @@ export type HeroReference = {
   [internalGroqTypeReferenceTo]?: 'hero'
 }
 
+export type MarqueeReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'marquee'
+}
+
 export type ButtonLinkReference = {
   _ref: string
   _type: 'reference'
@@ -78,6 +85,7 @@ export type InternationalizedArrayReferenceValue = {
   _type: 'internationalizedArrayReferenceValue'
   value?:
     | HeroReference
+    | MarqueeReference
     | ButtonLinkReference
     | PageBuilderReference
     | PageReference
@@ -161,6 +169,11 @@ export type Slug = {
   _type: 'slug'
   current?: string
   source?: string
+}
+
+export type Marquee = {
+  _type: 'marquee'
+  items?: Array<string>
 }
 
 export type Hero = {
@@ -338,6 +351,7 @@ export type AllSanitySchemaTypes =
   | TranslationMetadata
   | InternationalizedArrayReference
   | HeroReference
+  | MarqueeReference
   | ButtonLinkReference
   | PageBuilderReference
   | PageReference
@@ -351,6 +365,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | Marquee
   | Hero
   | SanityImagePaletteSwatch
   | SanityImagePalette
