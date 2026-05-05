@@ -1,7 +1,7 @@
 name: Pull request
 on:
   pull_request:
-    branches: ["main", "develop", "develop/*"]
+    branches: [ "main", "develop", "develop/*" ]
 
 jobs:
   linting:
@@ -61,5 +61,7 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Generate types
+        run: pnpm typegen
       - name: Run typechecking
         run: pnpm run typecheck

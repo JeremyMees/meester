@@ -1,75 +1,175 @@
-# Nuxt Minimal Starter
+# WG Website
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A monorepo project featuring a Nuxt 4 frontend with internationalization support
+and a Sanity CMS studio for content management.
 
-## Setup
+## Tech Stack
 
-Make sure to install dependencies:
+- **Frontend**: Nuxt 4, Vue 3, TypeScript, Tailwind CSS, Shadcn Vue
+- **CMS**: Sanity v5 with document internationalization
+- **Internationalization**: @nuxtjs/i18n
+- **Mailing**: [Resend](https://resend.com/emails)
+- **Consent**:
+  [Consent.io](https://consent.io/dashboard/wild-goose/europe-website)
+- **Package Manager**: pnpm with workspaces
+- **Linting/Formatting**: ESLint, Prettier
 
-```bash
-# npm
-npm install
+## Project Structure
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+```
+meester/
+├── web/                # Nuxt frontend application
+├── cms/                # Sanity CMS studio
+├── .env                # Symlinked env file for both packages
+└── package.json        # Root workspace configuration
 ```
 
-## Development Server
+## Getting Started
 
-Start the development server on `http://localhost:3000`:
+### Prerequisites
+
+- Node.js 24+
+- pnpm
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/WildGoose172/website.git
+   cd meester
+   ```
+
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+### Environment Variables
+
+Create a `.env` file in the root directory and add the variables. The env file
+is symlinked to both the `web` and `cms` packages.
+
+### Development
+
+Start both the frontend and studio in development mode:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+This will run both applications concurrently:
 
-Build the application for production:
+- Frontend: http://localhost:3000
+- Studio: http://localhost:3333
+
+### Individual Development
+
+Run only the frontend:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+pnpm web:dev
 ```
 
-Locally preview production build:
+Run only the studio:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+pnpm cms:dev
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Available Scripts
+
+### Root Scripts
+
+- `pnpm dev` - Start both frontend and studio in development
+- `pnpm build` - Build both applications
+- `pnpm lint` - Lint all packages
+- `pnpm format` - Format code in all packages
+- `pnpm typegen` - Generate types for Sanity schemas
+- `pnpm typecheck` - Run TypeScript type checking
+
+### Web Scripts
+
+- `pnpm web:dev` - Start Nuxt development server
+- `pnpm web:build` - Build Nuxt application
+- `pnpm web:preview` - Preview built application
+
+### CMS Scripts
+
+- `pnpm cms:dev` - Start Sanity studio development server
+- `pnpm cms:build` - Build Sanity studio
+- `pnpm cms:deploy` - Deploy Sanity studio to production
+
+## Typegen Support
+
+Sanity schema types are automatically generated and used in both the studio and
+frontend for type safety. After making changes to the Sanity schema, cd into the
+cms folder and run:
+
+```bash
+pnpm typegen
+```
+
+## Internationalization
+
+The project supports multiple languages with @nuxtjs/i18n:
+
+- English (`en`)
+- Dutch (`nl`)
+
+Content is managed through Sanity's document internationalization plugin.
+
+## Blocks and Templates
+
+The CMS uses a block-based approach for building pages. Blocks are defined in
+the Sanity studio and rendered in the frontend. Templates are used for specific
+pages that need a predefined structure, such as vacancy or policy pages. Both
+blocks and templates can be created by following the steps below.
+
+### How to create new CMS blocks
+
+1. Define a new schema in the `cms/schemaTypes/blocks` file.
+2. Add the new block to the page builder schema in
+   `cms/schemaTypes/page-builder`.
+3. Run the typegen script at the root of the project or inside the cms folder
+4. Add the new block name to the BLOCK_TYPES array in `web/types/blocks`.
+5. Create a new Vue component for the block in `web/components/blocks` following
+   the existing structure.
+6. Update the page builder component in `web/components/page-builder` to include
+   the new block component in the switch statement.
+
+### How to create new CMS template (vacancy, policy)
+
+1. Create a new schema in the `cms/schemaTypes` folder.
+2. Add the new schema to the schemaTypes array in `cms/schemaTypes/index`.
+3. Run the typegen script at the root of the project or inside the cms folder
+4. Add the new template name to the TEMPLATE_TYPES array in `web/types/blocks`.
+5. Create a new Vue component for the template in `web/components/templates`
+   following the existing structure.
+6. Update the `web/pages/[...slug].vue` to include the new template component in
+   the switch statement.
+
+## Deployment
+
+### Frontend
+
+The `web` folder gets automatically deployed via Vercel when pushing to the main
+branch.
+
+### Studio (Sanity)
+
+Deploy the studio using:
+
+```bash
+pnpm cms:deploy
+```
+
+## Contributing
+
+1. Follow the existing code style
+2. Run `pnpm lint` and `pnpm format` before committing
+3. Test changes in both frontend and studio
+
+## License
+
+This project is private and unlicensed.
