@@ -18,6 +18,21 @@ import '@sanity/client'
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: schema.json
+export type MediaTag = {
+  _id: string
+  _type: 'media.tag'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: Slug
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
 export type Icon = {
   _type: 'icon'
   name?: string
@@ -53,6 +68,13 @@ export type MarqueeReference = {
   [internalGroqTypeReferenceTo]?: 'marquee'
 }
 
+export type ProjectOverviewReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'projectOverview'
+}
+
 export type ButtonLinkReference = {
   _ref: string
   _type: 'reference'
@@ -74,6 +96,13 @@ export type PageReference = {
   [internalGroqTypeReferenceTo]?: 'page'
 }
 
+export type ProjectReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'project'
+}
+
 export type SeoReference = {
   _ref: string
   _type: 'reference'
@@ -86,9 +115,11 @@ export type InternationalizedArrayReferenceValue = {
   value?:
     | HeroReference
     | MarqueeReference
+    | ProjectOverviewReference
     | ButtonLinkReference
     | PageBuilderReference
     | PageReference
+    | ProjectReference
     | SeoReference
   language?: string
 }
@@ -114,10 +145,54 @@ export type Seo = {
   keywords?: Array<string>
 }
 
+export type Project = {
+  _id: string
+  _type: 'project'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  description?: string
+  link?: string
+  thumbnail?: {
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
+    alt?: string
+  }
+  language?: string
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x?: number
+  y?: number
+  height?: number
+  width?: number
+}
+
 export type PageBuilder = Array<
-  {
-    _key: string
-  } & Hero
+  | ({
+      _key: string
+    } & Hero)
+  | ({
+      _key: string
+    } & Marquee)
+  | ({
+      _key: string
+    } & ProjectOverview)
 >
 
 export type ButtonLink = {
@@ -149,26 +224,14 @@ export type Page = {
   language?: string
 }
 
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x?: number
-  y?: number
-  height?: number
-  width?: number
-}
-
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
+export type ProjectOverview = {
+  _type: 'projectOverview'
+  title?: string
+  projects?: Array<
+    {
+      _key: string
+    } & ProjectReference
+  >
 }
 
 export type Marquee = {
@@ -347,24 +410,29 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
+  | MediaTag
+  | Slug
   | Icon
   | TranslationMetadata
   | InternationalizedArrayReference
   | HeroReference
   | MarqueeReference
+  | ProjectOverviewReference
   | ButtonLinkReference
   | PageBuilderReference
   | PageReference
+  | ProjectReference
   | SeoReference
   | InternationalizedArrayReferenceValue
   | SanityImageAssetReference
   | Seo
+  | Project
+  | SanityImageCrop
+  | SanityImageHotspot
   | PageBuilder
   | ButtonLink
   | Page
-  | SanityImageCrop
-  | SanityImageHotspot
-  | Slug
+  | ProjectOverview
   | Marquee
   | Hero
   | SanityImagePaletteSwatch
@@ -378,7 +446,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/app/utils/sanity-queries.ts
 // Variable: pageQuery
-// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,      content[]{    ...,    _type == "hero" => {      ...,      buttons[]{        ...,        "link": link->slug.current      }    },  },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
+// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,      content[]{    ...,    _type == "hero" => {      ...,      buttons[]{        ...,        "link": link->slug.current      }    },    _type == "projectOverview" => {      ...,      projects[]->{        _id,        title,        description,        category,        thumbnail,        link      }    },  },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
 export type PageQueryResult = {
   _id: string
   _type: 'page'
@@ -387,90 +455,119 @@ export type PageQueryResult = {
   _rev: string
   title?: string
   slug?: Slug
-  content: Array<{
-    _key: string
-    _type: 'hero'
-    preTitleOne?: string
-    preTitleTwo?: string
-    title?: Array<
-      | ({
+  content: Array<
+    | {
+        _key: string
+        _type: 'hero'
+        preTitleOne?: string
+        preTitleTwo?: string
+        title?: Array<
+          | ({
+              _key: string
+            } & ButtonLink)
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?:
+                | 'blockquote'
+                | 'h1'
+                | 'h2'
+                | 'h3'
+                | 'h4'
+                | 'h5'
+                | 'h6'
+                | 'normal'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+        >
+        description?: Array<
+          | ({
+              _key: string
+            } & ButtonLink)
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?:
+                | 'blockquote'
+                | 'h1'
+                | 'h2'
+                | 'h3'
+                | 'h4'
+                | 'h5'
+                | 'h6'
+                | 'normal'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+        >
+        buttons: Array<{
           _key: string
-        } & ButtonLink)
-      | {
-          children?: Array<{
-            marks?: Array<string>
-            text?: string
-            _type: 'span'
-            _key: string
-          }>
-          style?:
-            | 'blockquote'
-            | 'h1'
-            | 'h2'
-            | 'h3'
-            | 'h4'
-            | 'h5'
-            | 'h6'
-            | 'normal'
-          listItem?: 'bullet' | 'number'
-          markDefs?: Array<{
-            href?: string
-            _type: 'link'
-            _key: string
-          }>
-          level?: number
-          _type: 'block'
-          _key: string
-        }
-    >
-    description?: Array<
-      | ({
-          _key: string
-        } & ButtonLink)
-      | {
-          children?: Array<{
-            marks?: Array<string>
-            text?: string
-            _type: 'span'
-            _key: string
-          }>
-          style?:
-            | 'blockquote'
-            | 'h1'
-            | 'h2'
-            | 'h3'
-            | 'h4'
-            | 'h5'
-            | 'h6'
-            | 'normal'
-          listItem?: 'bullet' | 'number'
-          markDefs?: Array<{
-            href?: string
-            _type: 'link'
-            _key: string
-          }>
-          level?: number
-          _type: 'block'
-          _key: string
-        }
-    >
-    buttons: Array<{
-      _key: string
-      _type: 'buttonLink'
-      label?: string
-      link: string | null
-      variant?:
-        | 'accent'
-        | 'default'
-        | 'destructive'
-        | 'ghost'
-        | 'link'
-        | 'outline'
-        | 'secondary'
-      size?: 'default' | 'icon-lg' | 'icon-sm' | 'icon' | 'lg' | 'sm' | 'xl'
-      icon?: Icon
-    }> | null
-  }> | null
+          _type: 'buttonLink'
+          label?: string
+          link: string | null
+          variant?:
+            | 'accent'
+            | 'default'
+            | 'destructive'
+            | 'ghost'
+            | 'link'
+            | 'outline'
+            | 'secondary'
+          size?: 'default' | 'icon-lg' | 'icon-sm' | 'icon' | 'lg' | 'sm' | 'xl'
+          icon?: Icon
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'marquee'
+        items?: Array<string>
+      }
+    | {
+        _key: string
+        _type: 'projectOverview'
+        title?: string
+        projects: Array<{
+          _id: string
+          title: string | null
+          description: string | null
+          category: null
+          thumbnail: {
+            image?: {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+            }
+            alt?: string
+          } | null
+          link: string | null
+        }> | null
+      }
+  > | null
   seo: {
     _type: 'seo'
     title: string | ''
@@ -488,6 +585,6 @@ export type PageQueryResult = {
 } | null
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    \n  content[]{\n    ...,\n    _type == "hero" => {\n      ...,\n      buttons[]{\n        ...,\n        "link": link->slug.current\n      }\n    },\n  },\n\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
+    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    \n  content[]{\n    ...,\n    _type == "hero" => {\n      ...,\n      buttons[]{\n        ...,\n        "link": link->slug.current\n      }\n    },\n    _type == "projectOverview" => {\n      ...,\n      projects[]->{\n        _id,\n        title,\n        description,\n        category,\n        thumbnail,\n        link\n      }\n    },\n  },\n\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
   }
 }

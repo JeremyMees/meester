@@ -1,6 +1,6 @@
 import type { ButtonLink } from '~/types/sanity'
 
-export const BLOCK_TYPES = ['hero', 'marquee'] as const
+export const BLOCK_TYPES = ['hero', 'marquee', 'projectOverview'] as const
 
 export type BlockType = (typeof BLOCK_TYPES)[number]
 
@@ -17,4 +17,27 @@ export type PortableTextValue = Hero['title']
 
 export interface LinkButtonWithSlug extends Omit<ButtonLink, 'link'> {
   link: string | null
+}
+
+export interface LinkButtonWithSlug extends Omit<ButtonLink, 'link'> {
+  link: string | null
+}
+
+export interface AssetWithAlt {
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  alt?: string
+}
+
+export interface ProjectOverviewItem {
+  _id: string
+  title: string | null
+  description: string | null
+  link: string | null
+  thumbnail: AssetWithAlt
 }

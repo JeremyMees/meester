@@ -8,6 +8,17 @@ const pageBuilderBlocks = `
         "link": link->slug.current
       }
     },
+    _type == "projectOverview" => {
+      ...,
+      projects[]->{
+        _id,
+        title,
+        description,
+        category,
+        thumbnail,
+        link
+      }
+    },
   },
 `
 

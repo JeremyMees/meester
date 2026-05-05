@@ -59,4 +59,43 @@ const marqueeType = defineType({
   },
 })
 
-export const blockTypes = [heroType, marqueeType]
+const projectOverviewType = defineType({
+  name: 'projectOverview',
+  title: 'Project overview',
+  type: 'object',
+  icon: ComponentIcon,
+  fields: [
+    defineField({
+      name: 'title',
+      type: 'string',
+      validation: rule => rule.required(),
+    }),
+    defineField({
+      name: 'projects',
+      type: 'array',
+      description: 'Select between 2 and 10 projects to show in the overview',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'project' }],
+          options: {
+            filter: ({ document }) => ({
+              filter: 'language == $language',
+              params: { language: document?.language },
+            }),
+          },
+        },
+      ],
+      validation: rule => rule.required() && rule.min(2) && rule.max(10),
+    }),
+  ],
+  preview: {
+    prepare() {
+      return {
+        title: 'Project overview',
+      }
+    },
+  },
+})
+
+export const blockTypes = [heroType, marqueeType, projectOverviewType]

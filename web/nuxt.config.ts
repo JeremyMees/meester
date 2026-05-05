@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'shadcn-nuxt',
     '@nuxtjs/sanity',
+    'motion-v/nuxt',
   ],
 
   css: ['~/assets/css/tailwind.css'],
@@ -49,10 +50,25 @@ export default defineNuxtConfig({
 
   shadcn: { prefix: '' },
 
+  image: {
+    sanity: {
+      projectId: process.env.NUXT_SANITY_PROJECT_ID ?? '',
+      dataset: process.env.NUXT_SANITY_DATASET ?? '',
+    },
+  },
+
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: [],
+      include: [
+        '@nuxtjs/sanity',
+        '@sanity/client',
+        '@portabletext/vue',
+        'class-variance-authority',
+        'reka-ui',
+        'clsx',
+        'tailwind-merge',
+      ],
     },
   },
 })
