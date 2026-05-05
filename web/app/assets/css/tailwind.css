@@ -72,6 +72,10 @@
     @apply bg-background text-foreground;
   }
 
+  html {
+    @apply scroll-smooth;
+  }
+
   h1 {
     @apply font-serif font-normal text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.95];
     text-wrap: balance;

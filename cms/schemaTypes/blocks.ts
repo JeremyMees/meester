@@ -98,4 +98,56 @@ const projectOverviewType = defineType({
   },
 })
 
-export const blockTypes = [heroType, marqueeType, projectOverviewType]
+const servicesGridType = defineType({
+  name: 'servicesGrid',
+  title: 'Services Grid',
+  type: 'object',
+  icon: ComponentIcon,
+  fields: [
+    defineField({
+      name: 'preTitle',
+      type: 'string',
+    }),
+    defineField({
+      name: 'title',
+      type: 'array',
+      of: portableComponents,
+      validation: rule => rule.required(),
+    }),
+    defineField({
+      name: 'services',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'title',
+              type: 'string',
+              validation: rule => rule.required(),
+            }),
+            defineField({
+              name: 'description',
+              type: 'string',
+              validation: rule => rule.required(),
+            }),
+            defineField({
+              name: 'points',
+              type: 'array',
+              of: [{ type: 'string' }],
+              validation: rule => rule.required() && rule.min(3) && rule.max(6),
+            }),
+          ],
+        },
+      ],
+      validation: rule => rule.max(3),
+    }),
+  ],
+})
+
+export const blockTypes = [
+  heroType,
+  marqueeType,
+  projectOverviewType,
+  servicesGridType,
+]

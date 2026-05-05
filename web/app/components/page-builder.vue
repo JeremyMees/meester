@@ -9,6 +9,7 @@ const blockComponents: Record<string, ReturnType<typeof resolveComponent>> = {
   hero: resolveComponent('BlocksHero'),
   marquee: resolveComponent('BlocksMarquee'),
   projectOverview: resolveComponent('BlocksProjectOverview'),
+  servicesGrid: resolveComponent('BlocksServicesGrid'),
 }
 </script>
 

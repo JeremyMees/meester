@@ -75,6 +75,13 @@ export type ProjectOverviewReference = {
   [internalGroqTypeReferenceTo]?: 'projectOverview'
 }
 
+export type ServicesGridReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'servicesGrid'
+}
+
 export type ButtonLinkReference = {
   _ref: string
   _type: 'reference'
@@ -116,6 +123,7 @@ export type InternationalizedArrayReferenceValue = {
     | HeroReference
     | MarqueeReference
     | ProjectOverviewReference
+    | ServicesGridReference
     | ButtonLinkReference
     | PageBuilderReference
     | PageReference
@@ -193,6 +201,9 @@ export type PageBuilder = Array<
   | ({
       _key: string
     } & ProjectOverview)
+  | ({
+      _key: string
+    } & ServicesGrid)
 >
 
 export type ButtonLink = {
@@ -222,6 +233,48 @@ export type Page = {
   content?: PageBuilder
   seo?: Seo
   language?: string
+}
+
+export type ServicesGrid = {
+  _type: 'servicesGrid'
+  preTitle?: string
+  title?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?:
+          | 'normal'
+          | 'h1'
+          | 'h2'
+          | 'h3'
+          | 'h4'
+          | 'h5'
+          | 'h6'
+          | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | ({
+        _key: string
+      } & ButtonLink)
+  >
+  services?: Array<{
+    title?: string
+    description?: string
+    points?: Array<string>
+    _key: string
+  }>
 }
 
 export type ProjectOverview = {
@@ -418,6 +471,7 @@ export type AllSanitySchemaTypes =
   | HeroReference
   | MarqueeReference
   | ProjectOverviewReference
+  | ServicesGridReference
   | ButtonLinkReference
   | PageBuilderReference
   | PageReference
@@ -432,6 +486,7 @@ export type AllSanitySchemaTypes =
   | PageBuilder
   | ButtonLink
   | Page
+  | ServicesGrid
   | ProjectOverview
   | Marquee
   | Hero
@@ -566,6 +621,48 @@ export type PageQueryResult = {
           } | null
           link: string | null
         }> | null
+      }
+    | {
+        _key: string
+        _type: 'servicesGrid'
+        preTitle?: string
+        title?: Array<
+          | ({
+              _key: string
+            } & ButtonLink)
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?:
+                | 'blockquote'
+                | 'h1'
+                | 'h2'
+                | 'h3'
+                | 'h4'
+                | 'h5'
+                | 'h6'
+                | 'normal'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+        >
+        services?: Array<{
+          title?: string
+          description?: string
+          points?: Array<string>
+          _key: string
+        }>
       }
   > | null
   seo: {
