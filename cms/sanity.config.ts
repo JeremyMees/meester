@@ -4,6 +4,7 @@ import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './schemaTypes'
 import { documentInternationalization } from '@sanity/document-internationalization'
 import { iconify } from 'sanity-plugin-iconify'
+import { media } from 'sanity-plugin-media'
 
 export default defineConfig({
   name: 'default',
@@ -25,6 +26,7 @@ export default defineConfig({
     iconify({
       collections: ['tabler'],
     }),
+    media(),
   ],
 
   schema: {
