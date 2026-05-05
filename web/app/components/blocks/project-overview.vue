@@ -107,16 +107,17 @@ function onMouseMove(e: MouseEvent) {
           scale: hoveredProject ? 1 : 0.82,
         }"
         :transition="{ duration: 0.18, ease: 'easeOut' }"
-        class="pointer-events-none fixed top-0 left-0 z-50 w-56 h-40 overflow-hidden rounded-xl shadow-2xl"
+        class="pointer-events-none fixed top-0 left-0 z-50 w-60 h-40 overflow-hidden rounded-xl shadow-2xl"
       >
         <SanityImage
           v-if="hoveredProject?.thumbnail?.image?.asset?._ref"
           :asset-id="hoveredProject.thumbnail.image.asset._ref"
           :alt="hoveredProject.thumbnail.alt ?? ''"
-          :w="224"
+          :w="240"
           :h="160"
           fit="crop"
           auto="format"
+          preload
           class="w-full h-full object-cover"
         />
       </Motion>
