@@ -1,4 +1,5 @@
 {
   "projects": "Projecten",
-  "step": "Stap | Stappen"
+  "step": "Stap | Stappen",
+  "goToSlide": "Ga naar dia {index}"
 }

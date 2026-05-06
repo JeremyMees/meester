@@ -89,6 +89,13 @@ export type ProcessStepsReference = {
   [internalGroqTypeReferenceTo]?: 'processSteps'
 }
 
+export type TestimonialSliderReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'testimonialSlider'
+}
+
 export type ButtonLinkReference = {
   _ref: string
   _type: 'reference'
@@ -117,6 +124,13 @@ export type ProjectReference = {
   [internalGroqTypeReferenceTo]?: 'project'
 }
 
+export type TestimonialReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'testimonial'
+}
+
 export type SeoReference = {
   _ref: string
   _type: 'reference'
@@ -132,10 +146,12 @@ export type InternationalizedArrayReferenceValue = {
     | ProjectOverviewReference
     | ServicesGridReference
     | ProcessStepsReference
+    | TestimonialSliderReference
     | ButtonLinkReference
     | PageBuilderReference
     | PageReference
     | ProjectReference
+    | TestimonialReference
     | SeoReference
   language?: string
 }
@@ -159,6 +175,18 @@ export type Seo = {
     _type: 'image'
   }
   keywords?: Array<string>
+}
+
+export type Testimonial = {
+  _id: string
+  _type: 'testimonial'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  client?: string
+  name?: string
+  description?: string
+  language?: string
 }
 
 export type Project = {
@@ -215,6 +243,9 @@ export type PageBuilder = Array<
   | ({
       _key: string
     } & ProcessSteps)
+  | ({
+      _key: string
+    } & TestimonialSlider)
 >
 
 export type ButtonLink = {
@@ -244,6 +275,16 @@ export type Page = {
   content?: PageBuilder
   seo?: Seo
   language?: string
+}
+
+export type TestimonialSlider = {
+  _type: 'testimonialSlider'
+  preTitle?: string
+  testimonials?: Array<
+    {
+      _key: string
+    } & TestimonialReference
+  >
 }
 
 export type ProcessSteps = {
@@ -525,20 +566,24 @@ export type AllSanitySchemaTypes =
   | ProjectOverviewReference
   | ServicesGridReference
   | ProcessStepsReference
+  | TestimonialSliderReference
   | ButtonLinkReference
   | PageBuilderReference
   | PageReference
   | ProjectReference
+  | TestimonialReference
   | SeoReference
   | InternationalizedArrayReferenceValue
   | SanityImageAssetReference
   | Seo
+  | Testimonial
   | Project
   | SanityImageCrop
   | SanityImageHotspot
   | PageBuilder
   | ButtonLink
   | Page
+  | TestimonialSlider
   | ProcessSteps
   | ServicesGrid
   | ProjectOverview
@@ -555,7 +600,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/app/utils/sanity-queries.ts
 // Variable: pageQuery
-// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,      content[]{    ...,    _type == "hero" => {      ...,      buttons[]{        ...,        "link": link->slug.current      }    },    _type == "projectOverview" => {      ...,      projects[]->{        _id,        title,        description,        category,        thumbnail,        link      }    },  },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
+// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,      content[]{    ...,    _type == "hero" => {      ...,      buttons[]{        ...,        "link": link->slug.current      }    },    _type == "projectOverview" => {      ...,      projects[]->{        _id,        title,        description,        category,        thumbnail,        link      }    },    _type == "testimonialSlider" => {      ...,      testimonials[]->{        _id,        client,        name,        description,      }    },  },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
 export type PageQueryResult = {
   _id: string
   _type: 'page'
@@ -759,6 +804,17 @@ export type PageQueryResult = {
           _key: string
         }>
       }
+    | {
+        _key: string
+        _type: 'testimonialSlider'
+        preTitle?: string
+        testimonials: Array<{
+          _id: string
+          client: string | null
+          name: string | null
+          description: string | null
+        }> | null
+      }
   > | null
   seo: {
     _type: 'seo'
@@ -777,6 +833,6 @@ export type PageQueryResult = {
 } | null
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    \n  content[]{\n    ...,\n    _type == "hero" => {\n      ...,\n      buttons[]{\n        ...,\n        "link": link->slug.current\n      }\n    },\n    _type == "projectOverview" => {\n      ...,\n      projects[]->{\n        _id,\n        title,\n        description,\n        category,\n        thumbnail,\n        link\n      }\n    },\n  },\n\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
+    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    \n  content[]{\n    ...,\n    _type == "hero" => {\n      ...,\n      buttons[]{\n        ...,\n        "link": link->slug.current\n      }\n    },\n    _type == "projectOverview" => {\n      ...,\n      projects[]->{\n        _id,\n        title,\n        description,\n        category,\n        thumbnail,\n        link\n      }\n    },\n    _type == "testimonialSlider" => {\n      ...,\n      testimonials[]->{\n        _id,\n        client,\n        name,\n        description,\n      }\n    },\n  },\n\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
   }
 }

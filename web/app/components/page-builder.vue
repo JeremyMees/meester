@@ -11,6 +11,7 @@ const blockComponents: Record<string, ReturnType<typeof resolveComponent>> = {
   projectOverview: resolveComponent('BlocksProjectOverview'),
   servicesGrid: resolveComponent('BlocksServicesGrid'),
   processSteps: resolveComponent('BlocksProcessSteps'),
+  testimonialSlider: resolveComponent('BlocksTestimonialSlider'),
 }
 </script>
 

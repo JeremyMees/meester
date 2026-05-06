@@ -19,6 +19,15 @@ const pageBuilderBlocks = `
         link
       }
     },
+    _type == "testimonialSlider" => {
+      ...,
+      testimonials[]->{
+        _id,
+        client,
+        name,
+        description,
+      }
+    },
   },
 `
 

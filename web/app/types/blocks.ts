@@ -46,3 +46,10 @@ export interface ProjectOverviewItem {
   link: string | null
   thumbnail: AssetWithAlt
 }
+
+export interface TestimonialSliderItem {
+  _id: string
+  name: string | null
+  client: string | null
+  description: string | null
+}

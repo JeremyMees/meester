@@ -1,4 +1,5 @@
 {
   "projects": "Projects",
-  "step": "Step | Steps"
+  "step": "Step | Steps",
+  "goToSlide": "Go to slide {index}"
 }

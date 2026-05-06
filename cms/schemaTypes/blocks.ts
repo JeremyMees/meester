@@ -186,10 +186,50 @@ const processStepsType = defineType({
   ],
 })
 
+const testimonialSliderType = defineType({
+  name: 'testimonialSlider',
+  title: 'Testimonial Slider',
+  type: 'object',
+  icon: ComponentIcon,
+  fields: [
+    defineField({
+      name: 'preTitle',
+      type: 'string',
+      validation: rule => rule.required(),
+    }),
+    defineField({
+      name: 'testimonials',
+      type: 'array',
+      description: 'Select between 2 and 10 testimonials to show in the slider',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'testimonial' }],
+          options: {
+            filter: ({ document }) => ({
+              filter: 'language == $language',
+              params: { language: document?.language },
+            }),
+          },
+        },
+      ],
+      validation: rule => rule.required() && rule.min(2) && rule.max(10),
+    }),
+  ],
+  preview: {
+    prepare() {
+      return {
+        title: 'Testimonial Slider',
+      }
+    },
+  },
+})
+
 export const blockTypes = [
   heroType,
   marqueeType,
   projectOverviewType,
   servicesGridType,
   processStepsType,
+  testimonialSliderType,
 ]
