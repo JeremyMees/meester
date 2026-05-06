@@ -82,6 +82,13 @@ export type ServicesGridReference = {
   [internalGroqTypeReferenceTo]?: 'servicesGrid'
 }
 
+export type ProcessStepsReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'processSteps'
+}
+
 export type ButtonLinkReference = {
   _ref: string
   _type: 'reference'
@@ -124,6 +131,7 @@ export type InternationalizedArrayReferenceValue = {
     | MarqueeReference
     | ProjectOverviewReference
     | ServicesGridReference
+    | ProcessStepsReference
     | ButtonLinkReference
     | PageBuilderReference
     | PageReference
@@ -204,6 +212,9 @@ export type PageBuilder = Array<
   | ({
       _key: string
     } & ServicesGrid)
+  | ({
+      _key: string
+    } & ProcessSteps)
 >
 
 export type ButtonLink = {
@@ -233,6 +244,47 @@ export type Page = {
   content?: PageBuilder
   seo?: Seo
   language?: string
+}
+
+export type ProcessSteps = {
+  _type: 'processSteps'
+  preTitle?: string
+  title?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?:
+          | 'normal'
+          | 'h1'
+          | 'h2'
+          | 'h3'
+          | 'h4'
+          | 'h5'
+          | 'h6'
+          | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | ({
+        _key: string
+      } & ButtonLink)
+  >
+  steps?: Array<{
+    title?: string
+    description?: string
+    _key: string
+  }>
 }
 
 export type ServicesGrid = {
@@ -472,6 +524,7 @@ export type AllSanitySchemaTypes =
   | MarqueeReference
   | ProjectOverviewReference
   | ServicesGridReference
+  | ProcessStepsReference
   | ButtonLinkReference
   | PageBuilderReference
   | PageReference
@@ -486,6 +539,7 @@ export type AllSanitySchemaTypes =
   | PageBuilder
   | ButtonLink
   | Page
+  | ProcessSteps
   | ServicesGrid
   | ProjectOverview
   | Marquee
@@ -599,6 +653,47 @@ export type PageQueryResult = {
         _key: string
         _type: 'marquee'
         items?: Array<string>
+      }
+    | {
+        _key: string
+        _type: 'processSteps'
+        preTitle?: string
+        title?: Array<
+          | ({
+              _key: string
+            } & ButtonLink)
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?:
+                | 'blockquote'
+                | 'h1'
+                | 'h2'
+                | 'h3'
+                | 'h4'
+                | 'h5'
+                | 'h6'
+                | 'normal'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+        >
+        steps?: Array<{
+          title?: string
+          description?: string
+          _key: string
+        }>
       }
     | {
         _key: string

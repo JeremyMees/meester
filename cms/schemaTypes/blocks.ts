@@ -128,7 +128,7 @@ const servicesGridType = defineType({
             }),
             defineField({
               name: 'description',
-              type: 'string',
+              type: 'text',
               validation: rule => rule.required(),
             }),
             defineField({
@@ -145,9 +145,51 @@ const servicesGridType = defineType({
   ],
 })
 
+const processStepsType = defineType({
+  name: 'processSteps',
+  title: 'Process Steps',
+  type: 'object',
+  icon: ComponentIcon,
+  fields: [
+    defineField({
+      name: 'preTitle',
+      type: 'string',
+    }),
+    defineField({
+      name: 'title',
+      type: 'array',
+      of: portableComponents,
+      validation: rule => rule.required(),
+    }),
+    defineField({
+      name: 'steps',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'title',
+              type: 'string',
+              validation: rule => rule.required(),
+            }),
+            defineField({
+              name: 'description',
+              type: 'text',
+              validation: rule => rule.required(),
+            }),
+          ],
+        },
+      ],
+      validation: rule => rule.max(4),
+    }),
+  ],
+})
+
 export const blockTypes = [
   heroType,
   marqueeType,
   projectOverviewType,
   servicesGridType,
+  processStepsType,
 ]
