@@ -23,12 +23,8 @@ const links = [
     class="fixed right-0 left-0 top-0 z-10 border-b border-border bg-background py-[22.5px] md:py-6"
   >
     <div class="content-container flex items-center justify-between">
-      <NuxtLinkLocale
-        to="/"
-        class="font-serif text-[22px] tracking-tight text-foreground cursor-pointer"
-      >
-        <span class="not-italic text-primary">✦</span>
-        Mees(ter)
+      <NuxtLinkLocale to="/">
+        <Logo />
       </NuxtLinkLocale>
 
       <nav class="hidden md:flex gap-9">

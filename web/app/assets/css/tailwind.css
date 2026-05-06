@@ -33,6 +33,8 @@
   --spacing-nav: 82px;
 
   --animate-marquee: marquee 30s linear infinite;
+  --animate-sparkle-pop-1: sparkle-pop-1 0.55s ease-out forwards;
+  --animate-sparkle-pop-2: sparkle-pop-2 0.65s ease-out 0.08s forwards;
 }
 
 :root {
@@ -127,5 +129,35 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes sparkle-pop-1 {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0) rotate(0deg);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(-5px, -10px) scale(1) rotate(-15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-8px, -18px) scale(0.4) rotate(-30deg);
+  }
+}
+
+@keyframes sparkle-pop-2 {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0) rotate(0deg);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(6px, -8px) scale(1) rotate(20deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(10px, -15px) scale(0.4) rotate(40deg);
   }
 }
