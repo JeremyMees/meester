@@ -28,15 +28,14 @@ export interface LinkButtonWithSlug extends Omit<ButtonLink, 'link'> {
   link: string | null
 }
 
-export interface AssetWithAlt {
-  image?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  alt?: string
+export interface ImageAsset {
+  hotspot?: SanityImageHotspot | null
+  crop?: SanityImageCrop | null
+  assetRef: string | null
+  url: string | null
+  altText: string
+  title: string
+  description: string
 }
 
 export interface ProjectOverviewItem {
@@ -44,7 +43,7 @@ export interface ProjectOverviewItem {
   title: string | null
   description: string | null
   link: string | null
-  thumbnail: AssetWithAlt
+  thumbnail: ImageAsset | null
 }
 
 export interface TestimonialSliderItem {

@@ -7,6 +7,8 @@ const props = defineProps<
     BlockMeta & { projects: ProjectOverviewItem[] }
 >()
 
+console.log(props)
+
 const hoveredProject = ref<ProjectOverviewItem | null>(null)
 const hasHover = useMediaQuery('(hover: hover)')
 
@@ -110,9 +112,9 @@ function onMouseMove(e: MouseEvent) {
         class="pointer-events-none fixed top-0 left-0 z-50 w-60 h-40 overflow-hidden rounded-xl shadow-2xl"
       >
         <SanityImage
-          v-if="hoveredProject?.thumbnail?.image?.asset?._ref"
-          :asset-id="hoveredProject.thumbnail.image.asset._ref"
-          :alt="hoveredProject.thumbnail.alt ?? ''"
+          v-if="hoveredProject?.thumbnail?.assetRef"
+          :asset-id="hoveredProject.thumbnail.assetRef"
+          :alt="hoveredProject.thumbnail.altText"
           :w="240"
           :h="160"
           fit="crop"

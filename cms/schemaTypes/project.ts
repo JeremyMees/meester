@@ -21,18 +21,8 @@ export const projectType = defineType({
     }),
     defineField({
       name: 'thumbnail',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'image',
-          type: 'image',
-          validation: rule => rule.required(),
-        }),
-        defineField({
-          name: 'alt',
-          type: 'string',
-        }),
-      ],
+      type: 'image',
+      validation: rule => rule.required(),
     }),
     defineField({
       name: 'language',

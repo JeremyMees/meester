@@ -1,34 +1,26 @@
-const pageBuilderBlocks = `
-  content[]{
-    ...,
-    _type == "hero" => {
-      ...,
-      buttons[]{
-        ...,
-        "link": link->slug.current
-      }
-    },
-    _type == "projectOverview" => {
-      ...,
-      projects[]->{
-        _id,
-        title,
-        description,
-        category,
-        thumbnail,
-        link
-      }
-    },
-    _type == "testimonialSlider" => {
-      ...,
-      testimonials[]->{
-        _id,
-        client,
-        name,
-        description,
-      }
-    },
-  },
+const imageFragment = `
+  hotspot,
+  crop,
+  "assetRef": asset._ref,
+  "url": asset->url,
+  "altText": coalesce(asset->altText[$language], ""),
+  "title": coalesce(asset->title[$language], ""),
+  "description": coalesce(asset->description[$language], ""),
+`
+
+const projectFragment = `
+  _id,
+  title,
+  description,
+  thumbnail { ${imageFragment} },
+  link
+`
+
+const testimonialFragment = `
+  _id,
+  name,
+  client,
+  description,
 `
 
 export const pageQuery = groq`
@@ -38,7 +30,24 @@ export const pageQuery = groq`
     language == $language
   ][0]{
     ...,
-    ${pageBuilderBlocks}
+    content[]{
+      ...,
+      _type == "hero" => {
+        ...,
+        buttons[]{
+          ...,
+          "link": link->slug.current
+        }
+      },
+      _type == "projectOverview" => {
+        ...,
+        projects[]->{${projectFragment}}
+      },
+      _type == "testimonialSlider" => {
+        ...,
+        testimonials[]->{${testimonialFragment}}
+      },
+    },
     "seo": {
       "_type": "seo",
       "title": coalesce(seo.title, ""),

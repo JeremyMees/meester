@@ -6,6 +6,11 @@ import { documentInternationalization } from '@sanity/document-internationalizat
 import { iconify } from 'sanity-plugin-iconify'
 import { media } from 'sanity-plugin-media'
 
+const locales = [
+  { id: 'nl', title: '🇧🇪' },
+  { id: 'en', title: '🇬🇧' },
+]
+
 export default defineConfig({
   name: 'default',
   title: 'mees(ter)',
@@ -17,16 +22,15 @@ export default defineConfig({
     structureTool(),
     visionTool(),
     documentInternationalization({
-      supportedLanguages: [
-        { id: 'nl', title: 'Nederlands' },
-        { id: 'en', title: 'English' },
-      ],
+      supportedLanguages: locales,
       schemaTypes: schemaTypes.map(type => type.name),
     }),
     iconify({
       collections: ['tabler'],
     }),
-    media(),
+    media({
+      locales: locales,
+    }),
   ],
 
   schema: {
