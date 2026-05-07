@@ -6,6 +6,7 @@ import { documentInternationalization } from '@sanity/document-internationalizat
 import { iconify } from 'sanity-plugin-iconify'
 import { media } from 'sanity-plugin-media'
 import { linkField } from 'sanity-plugin-link-field'
+import { pageDocumentTypes } from './schemaTypes/page'
 
 const locales = [
   { id: 'nl', title: '🇧🇪' },
@@ -32,7 +33,15 @@ export default defineConfig({
     media({
       locales: locales,
     }),
-    linkField(),
+    linkField({
+      linkableSchemaTypes: pageDocumentTypes.map(page => page.type),
+      referenceFilterOptions: {
+        filter: ({ document }) => ({
+          filter: 'language == $language',
+          params: { language: document?.language },
+        }),
+      },
+    }),
   ],
 
   schema: {
