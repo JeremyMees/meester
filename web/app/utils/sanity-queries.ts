@@ -44,7 +44,7 @@ export const pageQuery = groq`
         ...,
         buttons[]{
           ...,
-          "link": link->slug.current
+          "link": { ${linkFragment} }
         }
       },
       _type == "projectOverview" => {

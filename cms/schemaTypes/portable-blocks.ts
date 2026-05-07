@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { CubeIcon } from '@sanity/icons'
-import { pageDocumentTypes } from './page'
+import { requiredLinkField } from 'sanity-plugin-link-field'
 
 const buttonLinkType = defineType({
   name: 'buttonLink',
@@ -15,15 +15,8 @@ const buttonLinkType = defineType({
     }),
     defineField({
       name: 'link',
-      type: 'reference',
-      to: pageDocumentTypes,
-      options: {
-        filter: ({ document }) => ({
-          filter: 'language == $language',
-          params: { language: document?.language },
-        }),
-      },
-      validation: rule => rule.required(),
+      type: 'link',
+      validation: rule => rule.custom(field => requiredLinkField(field)),
     }),
     defineField({
       name: 'variant',

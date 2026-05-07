@@ -20,8 +20,8 @@ export interface BlockMeta {
 
 export type PortableTextValue = Hero['title']
 
-export interface LinkButtonWithSlug extends Omit<ButtonLink, 'link'> {
-  link: string | null
+export interface LinkButton extends Omit<ButtonLink, 'link'> {
+  link: SanityLink | null
 }
 
 export interface ImageAsset {

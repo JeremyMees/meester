@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { LinkButtonWithSlug } from '~/types/blocks'
+import type { LinkButton } from '~/types/blocks'
 
-const props = defineProps<LinkButtonWithSlug>()
+const props = defineProps<LinkButton>()
 
 const buttonVariant = props.variant ? stripStega(props.variant) : 'default'
 const buttonSize = props.size ? stripStega(props.size) : 'default'
@@ -10,9 +10,9 @@ const iconName = props.icon?.name ? stripStega(props.icon.name) : null
 
 <template>
   <Button v-if="link" :variant="buttonVariant" :size="buttonSize" as-child>
-    <NuxtLink :to="link">
+    <SanityLink v-bind="link">
       {{ label }}
       <Icon v-if="iconName" :name="iconName" />
-    </NuxtLink>
+    </SanityLink>
   </Button>
 </template>

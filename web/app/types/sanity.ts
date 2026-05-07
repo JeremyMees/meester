@@ -238,6 +238,19 @@ export type SanityImageHotspot = {
   width?: number
 }
 
+export type Page = {
+  _id: string
+  _type: 'page'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+  content?: PageBuilder
+  seo?: Seo
+  language?: string
+}
+
 export type PageBuilder = Array<
   | ({
       _key: string
@@ -262,7 +275,7 @@ export type PageBuilder = Array<
 export type ButtonLink = {
   _type: 'buttonLink'
   label?: string
-  link?: PageReference
+  link?: Link
   variant?:
     | 'default'
     | 'outline'
@@ -273,19 +286,6 @@ export type ButtonLink = {
     | 'destructive'
   size?: 'default' | 'sm' | 'lg' | 'xl' | 'icon' | 'icon-sm' | 'icon-lg'
   icon?: Icon
-}
-
-export type Page = {
-  _id: string
-  _type: 'page'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  slug?: Slug
-  content?: PageBuilder
-  seo?: Seo
-  language?: string
 }
 
 export type TestimonialSlider = {
@@ -592,9 +592,9 @@ export type AllSanitySchemaTypes =
   | Project
   | SanityImageCrop
   | SanityImageHotspot
+  | Page
   | PageBuilder
   | ButtonLink
-  | Page
   | TestimonialSlider
   | ProcessSteps
   | ServicesGrid
@@ -612,7 +612,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/app/utils/sanity-queries.ts
 // Variable: pageQuery
-// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,    content[]{      ...,      _type == "hero" => {        ...,        buttons[]{          ...,          "link": link->slug.current        }      },      _type == "projectOverview" => {        ...,        projects[]->{  _id,  title,  description,  thumbnail {   hotspot,  crop,  "assetRef": asset._ref,  "url": asset->url,  "altText": coalesce(asset->altText[$language], ""),  "title": coalesce(asset->title[$language], ""),  "description": coalesce(asset->description[$language], ""), },  "link": {   "type": link.type,  "url": coalesce(link.url, link.internalLink->slug.current),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }}      },      _type == "testimonialSlider" => {        ...,        testimonials[]->{  _id,  name,  client,  description,}      },    },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
+// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,    content[]{      ...,      _type == "hero" => {        ...,        buttons[]{          ...,          "link": {   "type": link.type,  "url": coalesce(link.url, link.internalLink->slug.current),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        }      },      _type == "projectOverview" => {        ...,        projects[]->{  _id,  title,  description,  thumbnail {   hotspot,  crop,  "assetRef": asset._ref,  "url": asset->url,  "altText": coalesce(asset->altText[$language], ""),  "title": coalesce(asset->title[$language], ""),  "description": coalesce(asset->description[$language], ""), },  "link": {   "type": link.type,  "url": coalesce(link.url, link.internalLink->slug.current),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }}      },      _type == "testimonialSlider" => {        ...,        testimonials[]->{  _id,  name,  client,  description,}      },    },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
 export type PageQueryResult = {
   _id: string
   _type: 'page'
@@ -693,7 +693,13 @@ export type PageQueryResult = {
           _key: string
           _type: 'buttonLink'
           label?: string
-          link: string | null
+          link: {
+            type: string | null
+            url: string | null
+            blank: boolean | null
+            parameters: string | null
+            anchor: string | null
+          }
           variant?:
             | 'accent'
             | 'default'
@@ -849,6 +855,6 @@ export type PageQueryResult = {
 } | null
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    content[]{\n      ...,\n      _type == "hero" => {\n        ...,\n        buttons[]{\n          ...,\n          "link": link->slug.current\n        }\n      },\n      _type == "projectOverview" => {\n        ...,\n        projects[]->{\n  _id,\n  title,\n  description,\n  thumbnail { \n  hotspot,\n  crop,\n  "assetRef": asset._ref,\n  "url": asset->url,\n  "altText": coalesce(asset->altText[$language], ""),\n  "title": coalesce(asset->title[$language], ""),\n  "description": coalesce(asset->description[$language], ""),\n },\n  "link": { \n  "type": link.type,\n  "url": coalesce(link.url, link.internalLink->slug.current),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n}\n      },\n      _type == "testimonialSlider" => {\n        ...,\n        testimonials[]->{\n  _id,\n  name,\n  client,\n  description,\n}\n      },\n    },\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
+    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    content[]{\n      ...,\n      _type == "hero" => {\n        ...,\n        buttons[]{\n          ...,\n          "link": { \n  "type": link.type,\n  "url": coalesce(link.url, link.internalLink->slug.current),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        }\n      },\n      _type == "projectOverview" => {\n        ...,\n        projects[]->{\n  _id,\n  title,\n  description,\n  thumbnail { \n  hotspot,\n  crop,\n  "assetRef": asset._ref,\n  "url": asset->url,\n  "altText": coalesce(asset->altText[$language], ""),\n  "title": coalesce(asset->title[$language], ""),\n  "description": coalesce(asset->description[$language], ""),\n },\n  "link": { \n  "type": link.type,\n  "url": coalesce(link.url, link.internalLink->slug.current),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n}\n      },\n      _type == "testimonialSlider" => {\n        ...,\n        testimonials[]->{\n  _id,\n  name,\n  client,\n  description,\n}\n      },\n    },\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
   }
 }
