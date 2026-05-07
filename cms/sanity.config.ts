@@ -5,6 +5,7 @@ import { schemaTypes } from './schemaTypes'
 import { documentInternationalization } from '@sanity/document-internationalization'
 import { iconify } from 'sanity-plugin-iconify'
 import { media } from 'sanity-plugin-media'
+import { linkField } from 'sanity-plugin-link-field'
 
 const locales = [
   { id: 'nl', title: '🇧🇪' },
@@ -31,6 +32,7 @@ export default defineConfig({
     media({
       locales: locales,
     }),
+    linkField(),
   ],
 
   schema: {

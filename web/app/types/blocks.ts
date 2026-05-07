@@ -24,10 +24,6 @@ export interface LinkButtonWithSlug extends Omit<ButtonLink, 'link'> {
   link: string | null
 }
 
-export interface LinkButtonWithSlug extends Omit<ButtonLink, 'link'> {
-  link: string | null
-}
-
 export interface ImageAsset {
   hotspot?: SanityImageHotspot | null
   crop?: SanityImageCrop | null
@@ -38,11 +34,19 @@ export interface ImageAsset {
   description: string
 }
 
+export interface SanityLink {
+  type?: 'internal' | 'external' | null
+  url?: string | null
+  blank?: boolean | null
+  parameters?: string | null
+  anchor?: string | null
+}
+
 export interface ProjectOverviewItem {
   _id: string
   title: string | null
   description: string | null
-  link: string | null
+  link: SanityLink | null
   thumbnail: ImageAsset | null
 }
 

@@ -8,12 +8,20 @@ const imageFragment = `
   "description": coalesce(asset->description[$language], ""),
 `
 
+const linkFragment = `
+  "type": link.type,
+  "url": coalesce(link.url, link.internalLink->slug.current),
+  "blank": link.blank,
+  "parameters": link.parameters,
+  "anchor": link.anchor
+`
+
 const projectFragment = `
   _id,
   title,
   description,
   thumbnail { ${imageFragment} },
-  link
+  "link": { ${linkFragment} }
 `
 
 const testimonialFragment = `

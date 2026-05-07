@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { BoltIcon } from '@sanity/icons'
+import { requiredLinkField } from 'sanity-plugin-link-field'
 
 export const projectType = defineType({
   name: 'project',
@@ -17,7 +18,8 @@ export const projectType = defineType({
     }),
     defineField({
       name: 'link',
-      type: 'url',
+      type: 'link',
+      validation: rule => rule.custom(field => requiredLinkField(field)),
     }),
     defineField({
       name: 'thumbnail',

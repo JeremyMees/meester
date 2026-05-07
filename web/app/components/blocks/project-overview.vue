@@ -7,8 +7,6 @@ const props = defineProps<
     BlockMeta & { projects: ProjectOverviewItem[] }
 >()
 
-console.log(props)
-
 const hoveredProject = ref<ProjectOverviewItem | null>(null)
 const hasHover = useMediaQuery('(hover: hover)')
 
@@ -74,28 +72,24 @@ function onMouseMove(e: MouseEvent) {
           {{ project.description }}
         </span>
 
-        <NuxtLink
-          v-if="project.link"
-          :to="project.link"
-          target="_blank"
+        <SanityLink
+          v-bind="project.link"
           class="hidden md:block text-muted-foreground group-hover:text-primary transition-colors after:absolute after:inset-0"
         >
           <Icon name="tabler:external-link" />
-        </NuxtLink>
+        </SanityLink>
 
         <div class="flex md:hidden gap-4">
           <span class="text-sm text-muted-foreground">
             {{ project.description }}
           </span>
 
-          <NuxtLink
-            v-if="project.link"
-            :to="project.link"
-            target="_blank"
+          <SanityLink
+            v-bind="project.link"
             class="text-muted-foreground group-hover:text-primary transition-colors after:absolute after:inset-0"
           >
             <Icon name="tabler:external-link" />
-          </NuxtLink>
+          </SanityLink>
         </div>
       </div>
     </div>
