@@ -5,6 +5,7 @@ import {
   parseQuery,
   parseURL,
   withLeadingSlash,
+  hasProtocol,
 } from 'ufo'
 import type { SanityLink } from '~/types/blocks'
 import type { HTMLAttributes } from 'vue'
@@ -25,7 +26,7 @@ const to = computed(() => {
   if (protocol && BLOCKED_PROTOCOLS.has(protocol.replace(':', '')))
     return undefined
 
-  let result = withLeadingSlash(urlTo)
+  let result = hasProtocol(urlTo) ? urlTo : withLeadingSlash(urlTo)
 
   if (props.parameters) {
     const params = stripStega(props.parameters)
