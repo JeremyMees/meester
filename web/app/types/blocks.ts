@@ -1,4 +1,4 @@
-import type { ButtonLink } from '~/types/sanity'
+import type { ButtonVariants } from '~/components/ui/button'
 
 export const BLOCK_TYPES = [
   'hero',
@@ -18,10 +18,43 @@ export interface BlockMeta {
   documentType: string
 }
 
-export type PortableTextValue = Hero['title']
+type RichBlock = {
+  _type: 'block'
+  _key: string
+  children?: Array<{
+    marks?: Array<string>
+    text?: string
+    _type: 'span'
+    _key: string
+  }>
+  style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+  listItem?: 'bullet' | 'number'
+  markDefs?: Array<{ href?: string; _type: 'link'; _key: string }>
+  level?: number
+}
 
-export interface LinkButton extends Omit<ButtonLink, 'link'> {
-  link: SanityLink | null
+export type PortableTextValue =
+  | Array<RichBlock | ButtonLinkBlock | InlineLinkBlock>
+  | null
+  | undefined
+
+export type SanityIcon = { _type: 'icon'; name?: string }
+
+export interface ButtonLinkBlock {
+  _type: 'buttonLink'
+  _key?: string
+  label?: string
+  link?: SanityLink | null
+  variant?: ButtonVariants['variant']
+  size?: ButtonVariants['size']
+  icon?: SanityIcon
+}
+
+export interface InlineLinkBlock {
+  _type: 'inlineLink'
+  _key?: string
+  label?: string
+  link?: SanityLink | null
 }
 
 export interface ImageAsset {

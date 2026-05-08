@@ -2,5 +2,8 @@
   "projects": "Projects",
   "step": "Step | Steps",
   "goToSlide": "Go to slide {index}",
-  "allRightsReserved": "All rights reserved"
+  "allRightsReserved": "All rights reserved",
+  "effective": "Effective",
+  "revised": "Revised",
+  "version": "Version"
 }

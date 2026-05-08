@@ -25,11 +25,18 @@ export type PageReference = {
   [internalGroqTypeReferenceTo]?: 'page'
 }
 
+export type PolicyReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'policy'
+}
+
 export type Link = {
   _type: 'link'
   text?: string
   type?: string
-  internalLink?: PageReference
+  internalLink?: PageReference | PolicyReference
   url?: string
   email?: string
   phone?: string
@@ -173,6 +180,13 @@ export type ButtonLinkReference = {
   [internalGroqTypeReferenceTo]?: 'buttonLink'
 }
 
+export type InlineLinkReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'inlineLink'
+}
+
 export type PageBuilderReference = {
   _ref: string
   _type: 'reference'
@@ -218,10 +232,12 @@ export type InternationalizedArrayReferenceValue = {
     | ProcessStepsReference
     | TestimonialSliderReference
     | ButtonLinkReference
+    | InlineLinkReference
     | PageBuilderReference
     | PageReference
     | ProjectReference
     | TestimonialReference
+    | PolicyReference
     | SeoReference
   language?: string
 }
@@ -245,6 +261,89 @@ export type Seo = {
     _type: 'image'
   }
   keywords?: Array<string>
+}
+
+export type Policy = {
+  _id: string
+  _type: 'policy'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  slug?: Slug
+  documentTitle?: string
+  title?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?:
+          | 'normal'
+          | 'h1'
+          | 'h2'
+          | 'h3'
+          | 'h4'
+          | 'h5'
+          | 'h6'
+          | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | ({
+        _key: string
+      } & ButtonLink)
+    | ({
+        _key: string
+      } & InlineLink)
+  >
+  content?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?:
+          | 'normal'
+          | 'h1'
+          | 'h2'
+          | 'h3'
+          | 'h4'
+          | 'h5'
+          | 'h6'
+          | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | ({
+        _key: string
+      } & ButtonLink)
+    | ({
+        _key: string
+      } & InlineLink)
+  >
+  effectiveDate?: string
+  revisedDate?: string
+  version?: string
+  seo?: Seo
+  language?: string
 }
 
 export type Testimonial = {
@@ -328,6 +427,12 @@ export type PageBuilder = Array<
     } & TestimonialSlider)
 >
 
+export type InlineLink = {
+  _type: 'inlineLink'
+  label?: string
+  link?: Link
+}
+
 export type ButtonLink = {
   _type: 'buttonLink'
   label?: string
@@ -387,6 +492,9 @@ export type ProcessSteps = {
     | ({
         _key: string
       } & ButtonLink)
+    | ({
+        _key: string
+      } & InlineLink)
   >
   steps?: Array<{
     title?: string
@@ -428,6 +536,9 @@ export type ServicesGrid = {
     | ({
         _key: string
       } & ButtonLink)
+    | ({
+        _key: string
+      } & InlineLink)
   >
   services?: Array<{
     title?: string
@@ -486,6 +597,9 @@ export type Hero = {
     | ({
         _key: string
       } & ButtonLink)
+    | ({
+        _key: string
+      } & InlineLink)
   >
   description?: Array<
     | {
@@ -517,6 +631,9 @@ export type Hero = {
     | ({
         _key: string
       } & ButtonLink)
+    | ({
+        _key: string
+      } & InlineLink)
   >
   buttons?: Array<
     {
@@ -568,6 +685,9 @@ export type Footer = {
     | ({
         _key: string
       } & ButtonLink)
+    | ({
+        _key: string
+      } & InlineLink)
   >
   columns?: Array<
     | ({
@@ -726,6 +846,7 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | PageReference
+  | PolicyReference
   | Link
   | MediaTag
   | Slug
@@ -746,6 +867,7 @@ export type AllSanitySchemaTypes =
   | ProcessStepsReference
   | TestimonialSliderReference
   | ButtonLinkReference
+  | InlineLinkReference
   | PageBuilderReference
   | ProjectReference
   | TestimonialReference
@@ -753,12 +875,14 @@ export type AllSanitySchemaTypes =
   | InternationalizedArrayReferenceValue
   | SanityImageAssetReference
   | Seo
+  | Policy
   | Testimonial
   | Project
   | SanityImageCrop
   | SanityImageHotspot
   | Page
   | PageBuilder
+  | InlineLink
   | ButtonLink
   | TestimonialSlider
   | ProcessSteps
@@ -784,247 +908,397 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/app/utils/sanity-queries.ts
 // Variable: pageQuery
-// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,    content[]{      ...,      _type == "hero" => {        ...,        buttons[]{          ...,          "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        }      },      _type == "projectOverview" => {        ...,        projects[]->{  _id,  title,  description,  thumbnail {   hotspot,  crop,  "assetRef": asset._ref,  "url": asset->url,  "altText": coalesce(asset->altText[$language], ""),  "title": coalesce(asset->title[$language], ""),  "description": coalesce(asset->description[$language], ""), },  "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }}      },      _type == "testimonialSlider" => {        ...,        testimonials[]->{  _id,  name,  client,  description,}      },    },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
-export type PageQueryResult = {
-  _id: string
-  _type: 'page'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  slug?: Slug
-  content: Array<
-    | {
-        _key: string
-        _type: 'hero'
-        preTitleOne?: string
-        preTitleTwo?: string
-        title?: Array<
-          | ({
+// Query: *[    _type in ["page", "policy"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,    content[]{      ...,      _type == "buttonLink" => {        ...,        "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }      },      _type == "inlineLink" => {        ...,        "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }      },      _type == "hero" => {        ...,        buttons[]{          ...,          "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        }      },      _type == "projectOverview" => {        ...,        projects[]->{  _id,  title,  description,  thumbnail {   hotspot,  crop,  "assetRef": asset._ref,  "url": asset->url,  "altText": coalesce(asset->altText[$language], ""),  "title": coalesce(asset->title[$language], ""),  "description": coalesce(asset->description[$language], ""), },  "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }}      },      _type == "testimonialSlider" => {        ...,        testimonials[]->{  _id,  name,  client,  description,}      },    },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
+export type PageQueryResult =
+  | {
+      _id: string
+      _type: 'page'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title?: string
+      slug?: Slug
+      content: Array<
+        | {
+            _key: string
+            _type: 'hero'
+            preTitleOne?: string
+            preTitleTwo?: string
+            title?: Array<
+              | ({
+                  _key: string
+                } & ButtonLink)
+              | ({
+                  _key: string
+                } & InlineLink)
+              | {
+                  children?: Array<{
+                    marks?: Array<string>
+                    text?: string
+                    _type: 'span'
+                    _key: string
+                  }>
+                  style?:
+                    | 'blockquote'
+                    | 'h1'
+                    | 'h2'
+                    | 'h3'
+                    | 'h4'
+                    | 'h5'
+                    | 'h6'
+                    | 'normal'
+                  listItem?: 'bullet' | 'number'
+                  markDefs?: Array<{
+                    href?: string
+                    _type: 'link'
+                    _key: string
+                  }>
+                  level?: number
+                  _type: 'block'
+                  _key: string
+                }
+            >
+            description?: Array<
+              | ({
+                  _key: string
+                } & ButtonLink)
+              | ({
+                  _key: string
+                } & InlineLink)
+              | {
+                  children?: Array<{
+                    marks?: Array<string>
+                    text?: string
+                    _type: 'span'
+                    _key: string
+                  }>
+                  style?:
+                    | 'blockquote'
+                    | 'h1'
+                    | 'h2'
+                    | 'h3'
+                    | 'h4'
+                    | 'h5'
+                    | 'h6'
+                    | 'normal'
+                  listItem?: 'bullet' | 'number'
+                  markDefs?: Array<{
+                    href?: string
+                    _type: 'link'
+                    _key: string
+                  }>
+                  level?: number
+                  _type: 'block'
+                  _key: string
+                }
+            >
+            buttons: Array<{
               _key: string
-            } & ButtonLink)
-          | {
-              children?: Array<{
-                marks?: Array<string>
-                text?: string
-                _type: 'span'
-                _key: string
-              }>
-              style?:
-                | 'blockquote'
-                | 'h1'
-                | 'h2'
-                | 'h3'
-                | 'h4'
-                | 'h5'
-                | 'h6'
-                | 'normal'
-              listItem?: 'bullet' | 'number'
-              markDefs?: Array<{
-                href?: string
-                _type: 'link'
-                _key: string
-              }>
-              level?: number
-              _type: 'block'
-              _key: string
-            }
-        >
-        description?: Array<
-          | ({
-              _key: string
-            } & ButtonLink)
-          | {
-              children?: Array<{
-                marks?: Array<string>
-                text?: string
-                _type: 'span'
-                _key: string
-              }>
-              style?:
-                | 'blockquote'
-                | 'h1'
-                | 'h2'
-                | 'h3'
-                | 'h4'
-                | 'h5'
-                | 'h6'
-                | 'normal'
-              listItem?: 'bullet' | 'number'
-              markDefs?: Array<{
-                href?: string
-                _type: 'link'
-                _key: string
-              }>
-              level?: number
-              _type: 'block'
-              _key: string
-            }
-        >
-        buttons: Array<{
-          _key: string
-          _type: 'buttonLink'
-          label?: string
-          link: {
-            type: string | null
-            url: string | null
-            blank: boolean | null
-            parameters: string | null
-            anchor: string | null
+              _type: 'buttonLink'
+              label?: string
+              link: {
+                type: string | null
+                url: string | null
+                blank: boolean | null
+                parameters: string | null
+                anchor: string | null
+              }
+              variant?:
+                | 'accent'
+                | 'default'
+                | 'destructive'
+                | 'ghost'
+                | 'link'
+                | 'outline'
+                | 'secondary'
+              size?:
+                | 'default'
+                | 'icon-lg'
+                | 'icon-sm'
+                | 'icon'
+                | 'lg'
+                | 'sm'
+                | 'xl'
+              icon?: Icon
+            }> | null
           }
-          variant?:
-            | 'accent'
-            | 'default'
-            | 'destructive'
-            | 'ghost'
-            | 'link'
-            | 'outline'
-            | 'secondary'
-          size?: 'default' | 'icon-lg' | 'icon-sm' | 'icon' | 'lg' | 'sm' | 'xl'
-          icon?: Icon
-        }> | null
-      }
-    | {
-        _key: string
-        _type: 'marquee'
-        items?: Array<string>
-      }
-    | {
-        _key: string
-        _type: 'processSteps'
-        preTitle?: string
-        title?: Array<
-          | ({
-              _key: string
-            } & ButtonLink)
-          | {
-              children?: Array<{
-                marks?: Array<string>
-                text?: string
-                _type: 'span'
-                _key: string
-              }>
-              style?:
-                | 'blockquote'
-                | 'h1'
-                | 'h2'
-                | 'h3'
-                | 'h4'
-                | 'h5'
-                | 'h6'
-                | 'normal'
-              listItem?: 'bullet' | 'number'
-              markDefs?: Array<{
-                href?: string
-                _type: 'link'
-                _key: string
-              }>
-              level?: number
-              _type: 'block'
-              _key: string
-            }
-        >
-        steps?: Array<{
-          title?: string
-          description?: string
-          _key: string
-        }>
-      }
-    | {
-        _key: string
-        _type: 'projectOverview'
-        title?: string
-        projects: Array<{
-          _id: string
-          title: string | null
-          description: string | null
-          thumbnail: {
-            hotspot: SanityImageHotspot | null
-            crop: SanityImageCrop | null
-            assetRef: string | null
-            url: string | null
-            altText: Array<string> | ''
-            title: Array<string> | ''
-            description: Array<string> | ''
-          } | null
-          link: {
-            type: string | null
-            url: string | null
-            blank: boolean | null
-            parameters: string | null
-            anchor: string | null
+        | {
+            _key: string
+            _type: 'marquee'
+            items?: Array<string>
           }
-        }> | null
+        | {
+            _key: string
+            _type: 'processSteps'
+            preTitle?: string
+            title?: Array<
+              | ({
+                  _key: string
+                } & ButtonLink)
+              | ({
+                  _key: string
+                } & InlineLink)
+              | {
+                  children?: Array<{
+                    marks?: Array<string>
+                    text?: string
+                    _type: 'span'
+                    _key: string
+                  }>
+                  style?:
+                    | 'blockquote'
+                    | 'h1'
+                    | 'h2'
+                    | 'h3'
+                    | 'h4'
+                    | 'h5'
+                    | 'h6'
+                    | 'normal'
+                  listItem?: 'bullet' | 'number'
+                  markDefs?: Array<{
+                    href?: string
+                    _type: 'link'
+                    _key: string
+                  }>
+                  level?: number
+                  _type: 'block'
+                  _key: string
+                }
+            >
+            steps?: Array<{
+              title?: string
+              description?: string
+              _key: string
+            }>
+          }
+        | {
+            _key: string
+            _type: 'projectOverview'
+            title?: string
+            projects: Array<{
+              _id: string
+              title: string | null
+              description: string | null
+              thumbnail: {
+                hotspot: SanityImageHotspot | null
+                crop: SanityImageCrop | null
+                assetRef: string | null
+                url: string | null
+                altText: Array<string> | ''
+                title: Array<string> | ''
+                description: Array<string> | ''
+              } | null
+              link: {
+                type: string | null
+                url: string | null
+                blank: boolean | null
+                parameters: string | null
+                anchor: string | null
+              }
+            }> | null
+          }
+        | {
+            _key: string
+            _type: 'servicesGrid'
+            preTitle?: string
+            title?: Array<
+              | ({
+                  _key: string
+                } & ButtonLink)
+              | ({
+                  _key: string
+                } & InlineLink)
+              | {
+                  children?: Array<{
+                    marks?: Array<string>
+                    text?: string
+                    _type: 'span'
+                    _key: string
+                  }>
+                  style?:
+                    | 'blockquote'
+                    | 'h1'
+                    | 'h2'
+                    | 'h3'
+                    | 'h4'
+                    | 'h5'
+                    | 'h6'
+                    | 'normal'
+                  listItem?: 'bullet' | 'number'
+                  markDefs?: Array<{
+                    href?: string
+                    _type: 'link'
+                    _key: string
+                  }>
+                  level?: number
+                  _type: 'block'
+                  _key: string
+                }
+            >
+            services?: Array<{
+              title?: string
+              description?: string
+              points?: Array<string>
+              _key: string
+            }>
+          }
+        | {
+            _key: string
+            _type: 'testimonialSlider'
+            preTitle?: string
+            testimonials: Array<{
+              _id: string
+              name: string | null
+              client: string | null
+              description: string | null
+            }> | null
+          }
+      > | null
+      seo: {
+        _type: 'seo'
+        title: string | ''
+        description: string | ''
+        image: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        keywords: Array<string> | Array<never>
       }
-    | {
-        _key: string
-        _type: 'servicesGrid'
-        preTitle?: string
-        title?: Array<
-          | ({
+      language?: string
+    }
+  | {
+      _id: string
+      _type: 'policy'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      slug?: Slug
+      documentTitle?: string
+      title?: Array<
+        | ({
+            _key: string
+          } & ButtonLink)
+        | ({
+            _key: string
+          } & InlineLink)
+        | {
+            children?: Array<{
+              marks?: Array<string>
+              text?: string
+              _type: 'span'
               _key: string
-            } & ButtonLink)
-          | {
-              children?: Array<{
-                marks?: Array<string>
-                text?: string
-                _type: 'span'
-                _key: string
-              }>
-              style?:
-                | 'blockquote'
-                | 'h1'
-                | 'h2'
-                | 'h3'
-                | 'h4'
-                | 'h5'
-                | 'h6'
-                | 'normal'
-              listItem?: 'bullet' | 'number'
-              markDefs?: Array<{
-                href?: string
-                _type: 'link'
-                _key: string
-              }>
-              level?: number
-              _type: 'block'
+            }>
+            style?:
+              | 'blockquote'
+              | 'h1'
+              | 'h2'
+              | 'h3'
+              | 'h4'
+              | 'h5'
+              | 'h6'
+              | 'normal'
+            listItem?: 'bullet' | 'number'
+            markDefs?: Array<{
+              href?: string
+              _type: 'link'
               _key: string
+            }>
+            level?: number
+            _type: 'block'
+            _key: string
+          }
+      >
+      content: Array<
+        | {
+            children?: Array<{
+              marks?: Array<string>
+              text?: string
+              _type: 'span'
+              _key: string
+            }>
+            style?:
+              | 'blockquote'
+              | 'h1'
+              | 'h2'
+              | 'h3'
+              | 'h4'
+              | 'h5'
+              | 'h6'
+              | 'normal'
+            listItem?: 'bullet' | 'number'
+            markDefs?: Array<{
+              href?: string
+              _type: 'link'
+              _key: string
+            }>
+            level?: number
+            _type: 'block'
+            _key: string
+          }
+        | {
+            _key: string
+            _type: 'buttonLink'
+            label?: string
+            link: {
+              type: string | null
+              url: string | null
+              blank: boolean | null
+              parameters: string | null
+              anchor: string | null
             }
-        >
-        services?: Array<{
-          title?: string
-          description?: string
-          points?: Array<string>
-          _key: string
-        }>
+            variant?:
+              | 'accent'
+              | 'default'
+              | 'destructive'
+              | 'ghost'
+              | 'link'
+              | 'outline'
+              | 'secondary'
+            size?:
+              | 'default'
+              | 'icon-lg'
+              | 'icon-sm'
+              | 'icon'
+              | 'lg'
+              | 'sm'
+              | 'xl'
+            icon?: Icon
+          }
+        | {
+            _key: string
+            _type: 'inlineLink'
+            label?: string
+            link: {
+              type: string | null
+              url: string | null
+              blank: boolean | null
+              parameters: string | null
+              anchor: string | null
+            }
+          }
+      > | null
+      effectiveDate?: string
+      revisedDate?: string
+      version?: string
+      seo: {
+        _type: 'seo'
+        title: string | ''
+        description: string | ''
+        image: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        keywords: Array<string> | Array<never>
       }
-    | {
-        _key: string
-        _type: 'testimonialSlider'
-        preTitle?: string
-        testimonials: Array<{
-          _id: string
-          name: string | null
-          client: string | null
-          description: string | null
-        }> | null
-      }
-  > | null
-  seo: {
-    _type: 'seo'
-    title: string | ''
-    description: string | ''
-    image: {
-      asset?: SanityImageAssetReference
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    } | null
-    keywords: Array<string> | Array<never>
-  }
-  language?: string
-} | null
+      language?: string
+    }
+  | null
 
 // Source: ../web/app/utils/sanity-queries.ts
 // Variable: configQuery
@@ -1061,6 +1335,9 @@ export type ConfigQueryResult = {
       | ({
           _key: string
         } & ButtonLink)
+      | ({
+          _key: string
+        } & InlineLink)
       | {
           children?: Array<{
             marks?: Array<string>
@@ -1148,7 +1425,7 @@ export type ConfigQueryResult = {
 } | null
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    content[]{\n      ...,\n      _type == "hero" => {\n        ...,\n        buttons[]{\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        }\n      },\n      _type == "projectOverview" => {\n        ...,\n        projects[]->{\n  _id,\n  title,\n  description,\n  thumbnail { \n  hotspot,\n  crop,\n  "assetRef": asset._ref,\n  "url": asset->url,\n  "altText": coalesce(asset->altText[$language], ""),\n  "title": coalesce(asset->title[$language], ""),\n  "description": coalesce(asset->description[$language], ""),\n },\n  "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n}\n      },\n      _type == "testimonialSlider" => {\n        ...,\n        testimonials[]->{\n  _id,\n  name,\n  client,\n  description,\n}\n      },\n    },\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
+    '\n  *[\n    _type in ["page", "policy"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    content[]{\n      ...,\n      _type == "buttonLink" => {\n        ...,\n        "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n      },\n      _type == "inlineLink" => {\n        ...,\n        "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n      },\n      _type == "hero" => {\n        ...,\n        buttons[]{\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        }\n      },\n      _type == "projectOverview" => {\n        ...,\n        projects[]->{\n  _id,\n  title,\n  description,\n  thumbnail { \n  hotspot,\n  crop,\n  "assetRef": asset._ref,\n  "url": asset->url,\n  "altText": coalesce(asset->altText[$language], ""),\n  "title": coalesce(asset->title[$language], ""),\n  "description": coalesce(asset->description[$language], ""),\n },\n  "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n}\n      },\n      _type == "testimonialSlider" => {\n        ...,\n        testimonials[]->{\n  _id,\n  name,\n  client,\n  description,\n}\n      },\n    },\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
     '\n  *[\n    _type == "config" &&\n    language == $language\n  ]{\n    navigation{\n      cta{\n        ...,\n        "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n      },\n      links[]{\n        ...,\n        _type == "navigationLink" => {\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        },\n      }\n    },\n    footer{\n      ...,\n      columns[]{\n        ...,\n        _type == "footerColumnEmail" => {\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        },\n        _type == "footerColumnAddress" => {\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        },\n        _type == "footerColumnSocials" => {\n          ...,\n          socials[]{\n            ...,\n            "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n          }\n        }\n      },\n      policies[]{\n        ...,\n        _type == "navigationLink" => {\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        }\n      }\n    }\n  }[0]\n': ConfigQueryResult
   }
 }

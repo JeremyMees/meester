@@ -46,8 +46,18 @@ export default defineNuxtConfig({
     defaultLocale: 'nl',
     strategy: 'prefix_except_default',
     locales: [
-      { code: 'nl', name: 'Nederlands', file: 'nl.json' },
-      { code: 'en', name: 'English', file: 'en.json' },
+      {
+        code: 'nl',
+        name: 'Nederlands',
+        language: 'nl-BE',
+        file: 'nl.json',
+      },
+      {
+        code: 'en',
+        name: 'English',
+        language: 'en-GB',
+        file: 'en.json',
+      },
     ],
   },
 

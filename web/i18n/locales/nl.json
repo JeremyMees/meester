@@ -2,5 +2,8 @@
   "projects": "Projecten",
   "step": "Stap | Stappen",
   "goToSlide": "Ga naar dia {index}",
-  "allRightsReserved": "Alle rechten voorbehouden"
+  "allRightsReserved": "Alle rechten voorbehouden",
+  "effective": "Ingangsdatum",
+  "revised": "Herzien",
+  "version": "Versie"
 }
