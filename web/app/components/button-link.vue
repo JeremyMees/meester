@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { LinkButton } from '~/types/blocks'
+import type { ButtonLinkBlock } from '~/types/blocks'
 
-const props = defineProps<LinkButton>()
+const props = defineProps<ButtonLinkBlock>()
 
 const buttonVariant = props.variant ? stripStega(props.variant) : 'default'
 const buttonSize = props.size ? stripStega(props.size) : 'default'

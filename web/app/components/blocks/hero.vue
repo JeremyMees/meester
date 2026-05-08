@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Hero } from '~/types/sanity'
-import type { BlockMeta, LinkButton } from '~/types/blocks'
+import type { BlockMeta, ButtonLinkBlock } from '~/types/blocks'
 
-defineProps<Hero & BlockMeta & { buttons: LinkButton[] }>()
+defineProps<Hero & BlockMeta & { buttons: ButtonLinkBlock[] }>()
 </script>
 
 <template>
@@ -30,7 +30,7 @@ defineProps<Hero & BlockMeta & { buttons: LinkButton[] }>()
       </div>
 
       <div class="flex flex-wrap gap-3.5">
-        <LinkButton
+        <ButtonLink
           v-for="(button, index) in buttons"
           :key="index"
           v-bind="button"

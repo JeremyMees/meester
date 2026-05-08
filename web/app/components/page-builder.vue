@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-defineProps<{
-  documentId: string
-  documentType: string
-  content: NonNullable<NonNullable<PageQueryResult>['content']> | null
-}>()
+import type { BlockMeta } from '~/types/blocks'
+
+defineProps<
+  BlockMeta & {
+    content: NonNullable<NonNullable<PageQueryResult>['content']> | null
+  }
+>()
 
 const blockComponents: Record<string, ReturnType<typeof resolveComponent>> = {
   hero: resolveComponent('BlocksHero'),

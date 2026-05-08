@@ -14,7 +14,7 @@ defineProps<{
 
 const customComponents: PortableTextComponents['types'] = {
   buttonLink: ({ value }: PortableTextComponentProps<ButtonLink>) =>
-    h(resolveComponent('LinkButton'), value, () => value.label),
+    h(resolveComponent('ButtonLink'), value, () => value.label),
   inlineLink: ({ value }: PortableTextComponentProps<InlineLink>) =>
     h(resolveComponent('SanityLink'), { ...value.link }, () => value.label),
 }
