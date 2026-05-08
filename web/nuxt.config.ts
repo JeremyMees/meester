@@ -8,6 +8,10 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
+  experimental: {
+    viewTransition: true,
+  },
+
   modules: [
     '@nuxt/fonts',
     '@nuxt/icon',
