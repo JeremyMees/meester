@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Policy } from '~/types/sanity'
+import type { Policy } from '#shared/types/sanity'
 import type { BlockMeta, PortableTextValue } from '~/types/blocks'
 
 defineProps<

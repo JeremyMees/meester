@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProcessSteps } from '~/types/sanity'
+import type { ProcessSteps } from '#shared/types/sanity'
 import type { BlockMeta } from '~/types/blocks'
 
 defineProps<ProcessSteps & BlockMeta>()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProjectOverview } from '~/types/sanity'
+import type { ProjectOverview } from '#shared/types/sanity'
 import type { BlockMeta, ProjectOverviewItem } from '~/types/blocks'
 
 const props = defineProps<

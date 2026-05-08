@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Hero } from '~/types/sanity'
+import type { Hero } from '#shared/types/sanity'
 import type { BlockMeta, ButtonLinkBlock } from '~/types/blocks'
 
 defineProps<Hero & BlockMeta & { buttons: ButtonLinkBlock[] }>()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ServicesGrid } from '~/types/sanity'
+import type { ServicesGrid } from '#shared/types/sanity'
 import type { BlockMeta } from '~/types/blocks'
 
 defineProps<ServicesGrid & BlockMeta>()

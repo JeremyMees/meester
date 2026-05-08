@@ -5,7 +5,7 @@ import type {
   PortableTextComponentProps,
 } from '@portabletext/vue'
 import type { PortableTextValue } from '~/types/blocks'
-import type { ButtonLink, InlineLink } from '~/types/sanity'
+import type { ButtonLink, InlineLink } from '#shared/types/sanity'
 
 defineProps<{
   value: PortableTextValue

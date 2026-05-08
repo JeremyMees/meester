@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TestimonialSlider } from '~/types/sanity'
+import type { TestimonialSlider } from '#shared/types/sanity'
 import type { BlockMeta, TestimonialSliderItem } from '~/types/blocks'
 
 const props = defineProps<

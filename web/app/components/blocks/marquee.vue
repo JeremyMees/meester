@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Marquee } from '~/types/sanity'
+import type { Marquee } from '#shared/types/sanity'
 import type { BlockMeta } from '~/types/blocks'
 
 defineProps<Marquee & BlockMeta>()
