@@ -5,8 +5,10 @@ import { pageType } from './page'
 import { projectType } from './project'
 import { testimonialType } from './testimonial'
 import { seoType } from './seo'
+import { globalConfigTypes } from './global-config'
 
 export const schemaTypes = [
+  ...globalConfigTypes,
   ...blockTypes,
   ...portableBlockTypes,
   pageBuilderType,

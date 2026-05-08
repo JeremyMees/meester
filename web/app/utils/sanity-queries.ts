@@ -10,7 +10,11 @@ const imageFragment = `
 
 const linkFragment = `
   "type": link.type,
-  "url": coalesce(link.url, link.internalLink->slug.current),
+  "url": select(
+    link.type == "email" => "mailto:" + link.email,
+    link.type == "phone" => "tel:" + link.phone,
+    coalesce(link.url, link.internalLink->slug.current)
+  ),
   "blank": link.blank,
   "parameters": link.parameters,
   "anchor": link.anchor
@@ -64,4 +68,53 @@ export const pageQuery = groq`
       "keywords": coalesce(seo.keywords, []),
     },
   }
+`
+
+export const configQuery = groq`
+  *[
+    _type == "config" &&
+    language == $language
+  ]{
+    navigation{
+      cta{
+        ...,
+        "link": { ${linkFragment} }
+      },
+      links[]{
+        ...,
+        _type == "navigationLink" => {
+          ...,
+          "link": { ${linkFragment} }
+        },
+      }
+    },
+    footer{
+      ...,
+      columns[]{
+        ...,
+        _type == "footerColumnEmail" => {
+          ...,
+          "link": { ${linkFragment} }
+        },
+        _type == "footerColumnAddress" => {
+          ...,
+          "link": { ${linkFragment} }
+        },
+        _type == "footerColumnSocials" => {
+          ...,
+          socials[]{
+            ...,
+            "link": { ${linkFragment} }
+          }
+        }
+      },
+      policies[]{
+        ...,
+        _type == "navigationLink" => {
+          ...,
+          "link": { ${linkFragment} }
+        }
+      }
+    }
+  }[0]
 `

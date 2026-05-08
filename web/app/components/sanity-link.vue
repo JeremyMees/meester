@@ -36,12 +36,12 @@ const to = computed(() => {
 </script>
 
 <template>
-  <NuxtLink
+  <NuxtLinkLocale
     v-if="to"
     :to="to"
     :target="blank ? '_blank' : null"
     :class="props.class"
   >
     <slot />
-  </NuxtLink>
+  </NuxtLinkLocale>
 </template>

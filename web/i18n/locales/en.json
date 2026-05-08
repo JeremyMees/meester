@@ -1,5 +1,6 @@
 {
   "projects": "Projects",
   "step": "Step | Steps",
-  "goToSlide": "Go to slide {index}"
+  "goToSlide": "Go to slide {index}",
+  "allRightsReserved": "All rights reserved"
 }

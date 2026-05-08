@@ -75,6 +75,55 @@ export type InternationalizedArrayReference = Array<
   } & InternationalizedArrayReferenceValue
 >
 
+export type NavigationLinkReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'navigationLink'
+}
+
+export type NavigationReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'navigation'
+}
+
+export type FooterReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'footer'
+}
+
+export type FooterColumnEmailReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'footerColumnEmail'
+}
+
+export type FooterColumnAddressReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'footerColumnAddress'
+}
+
+export type FooterColumnSocialsReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'footerColumnSocials'
+}
+
+export type ConfigReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'config'
+}
+
 export type HeroReference = {
   _ref: string
   _type: 'reference'
@@ -155,6 +204,13 @@ export type SeoReference = {
 export type InternationalizedArrayReferenceValue = {
   _type: 'internationalizedArrayReferenceValue'
   value?:
+    | NavigationLinkReference
+    | NavigationReference
+    | FooterReference
+    | FooterColumnEmailReference
+    | FooterColumnAddressReference
+    | FooterColumnSocialsReference
+    | ConfigReference
     | HeroReference
     | MarqueeReference
     | ProjectOverviewReference
@@ -469,6 +525,108 @@ export type Hero = {
   >
 }
 
+export type Config = {
+  _id: string
+  _type: 'config'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  navigation?: Navigation
+  footer?: Footer
+  language?: string
+}
+
+export type Footer = {
+  _type: 'footer'
+  title?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?:
+          | 'normal'
+          | 'h1'
+          | 'h2'
+          | 'h3'
+          | 'h4'
+          | 'h5'
+          | 'h6'
+          | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | ({
+        _key: string
+      } & ButtonLink)
+  >
+  columns?: Array<
+    | ({
+        _key: string
+      } & FooterColumnEmail)
+    | ({
+        _key: string
+      } & FooterColumnAddress)
+    | ({
+        _key: string
+      } & FooterColumnSocials)
+  >
+  policies?: Array<
+    {
+      _key: string
+    } & NavigationLink
+  >
+}
+
+export type Navigation = {
+  _type: 'navigation'
+  links?: Array<
+    {
+      _key: string
+    } & NavigationLink
+  >
+  cta?: NavigationLink
+}
+
+export type FooterColumnSocials = {
+  _type: 'footerColumnSocials'
+  title?: string
+  socials?: Array<{
+    label?: string
+    link?: Link
+    _key: string
+  }>
+}
+
+export type FooterColumnAddress = {
+  _type: 'footerColumnAddress'
+  title?: string
+  address?: string
+  link?: Link
+}
+
+export type FooterColumnEmail = {
+  _type: 'footerColumnEmail'
+  title?: string
+  email?: string
+  link?: Link
+}
+
+export type NavigationLink = {
+  _type: 'navigationLink'
+  name?: string
+  link?: Link
+}
+
 export type SanityImagePaletteSwatch = {
   _type: 'sanity.imagePaletteSwatch'
   background?: string
@@ -574,6 +732,13 @@ export type AllSanitySchemaTypes =
   | Icon
   | TranslationMetadata
   | InternationalizedArrayReference
+  | NavigationLinkReference
+  | NavigationReference
+  | FooterReference
+  | FooterColumnEmailReference
+  | FooterColumnAddressReference
+  | FooterColumnSocialsReference
+  | ConfigReference
   | HeroReference
   | MarqueeReference
   | ProjectOverviewReference
@@ -601,6 +766,13 @@ export type AllSanitySchemaTypes =
   | ProjectOverview
   | Marquee
   | Hero
+  | Config
+  | Footer
+  | Navigation
+  | FooterColumnSocials
+  | FooterColumnAddress
+  | FooterColumnEmail
+  | NavigationLink
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -612,7 +784,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/app/utils/sanity-queries.ts
 // Variable: pageQuery
-// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,    content[]{      ...,      _type == "hero" => {        ...,        buttons[]{          ...,          "link": {   "type": link.type,  "url": coalesce(link.url, link.internalLink->slug.current),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        }      },      _type == "projectOverview" => {        ...,        projects[]->{  _id,  title,  description,  thumbnail {   hotspot,  crop,  "assetRef": asset._ref,  "url": asset->url,  "altText": coalesce(asset->altText[$language], ""),  "title": coalesce(asset->title[$language], ""),  "description": coalesce(asset->description[$language], ""), },  "link": {   "type": link.type,  "url": coalesce(link.url, link.internalLink->slug.current),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }}      },      _type == "testimonialSlider" => {        ...,        testimonials[]->{  _id,  name,  client,  description,}      },    },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
+// Query: *[    _type in ["page"] &&    slug.current == $slug &&    language == $language  ][0]{    ...,    content[]{      ...,      _type == "hero" => {        ...,        buttons[]{          ...,          "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        }      },      _type == "projectOverview" => {        ...,        projects[]->{  _id,  title,  description,  thumbnail {   hotspot,  crop,  "assetRef": asset._ref,  "url": asset->url,  "altText": coalesce(asset->altText[$language], ""),  "title": coalesce(asset->title[$language], ""),  "description": coalesce(asset->description[$language], ""), },  "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }}      },      _type == "testimonialSlider" => {        ...,        testimonials[]->{  _id,  name,  client,  description,}      },    },    "seo": {      "_type": "seo",      "title": coalesce(seo.title, ""),      "description": coalesce(seo.description,  ""),      "image": seo.image,      "keywords": coalesce(seo.keywords, []),    },  }
 export type PageQueryResult = {
   _id: string
   _type: 'page'
@@ -853,8 +1025,130 @@ export type PageQueryResult = {
   }
   language?: string
 } | null
+
+// Source: ../web/app/utils/sanity-queries.ts
+// Variable: configQuery
+// Query: *[    _type == "config" &&    language == $language  ]{    navigation{      cta{        ...,        "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }      },      links[]{        ...,        _type == "navigationLink" => {          ...,          "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        },      }    },    footer{      ...,      columns[]{        ...,        _type == "footerColumnEmail" => {          ...,          "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        },        _type == "footerColumnAddress" => {          ...,          "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        },        _type == "footerColumnSocials" => {          ...,          socials[]{            ...,            "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }          }        }      },      policies[]{        ...,        _type == "navigationLink" => {          ...,          "link": {   "type": link.type,  "url": select(    link.type == "email" => "mailto:" + link.email,    link.type == "phone" => "tel:" + link.phone,    coalesce(link.url, link.internalLink->slug.current)  ),  "blank": link.blank,  "parameters": link.parameters,  "anchor": link.anchor }        }      }    }  }[0]
+export type ConfigQueryResult = {
+  navigation: {
+    cta: {
+      _type: 'navigationLink'
+      name?: string
+      link: {
+        type: string | null
+        url: string | null
+        blank: boolean | null
+        parameters: string | null
+        anchor: string | null
+      }
+    } | null
+    links: Array<{
+      _key: string
+      _type: 'navigationLink'
+      name?: string
+      link: {
+        type: string | null
+        url: string | null
+        blank: boolean | null
+        parameters: string | null
+        anchor: string | null
+      }
+    }> | null
+  } | null
+  footer: {
+    _type: 'footer'
+    title?: Array<
+      | ({
+          _key: string
+        } & ButtonLink)
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?:
+            | 'blockquote'
+            | 'h1'
+            | 'h2'
+            | 'h3'
+            | 'h4'
+            | 'h5'
+            | 'h6'
+            | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+    >
+    columns: Array<
+      | {
+          _key: string
+          _type: 'footerColumnAddress'
+          title?: string
+          address?: string
+          link: {
+            type: string | null
+            url: string | null
+            blank: boolean | null
+            parameters: string | null
+            anchor: string | null
+          }
+        }
+      | {
+          _key: string
+          _type: 'footerColumnEmail'
+          title?: string
+          email?: string
+          link: {
+            type: string | null
+            url: string | null
+            blank: boolean | null
+            parameters: string | null
+            anchor: string | null
+          }
+        }
+      | {
+          _key: string
+          _type: 'footerColumnSocials'
+          title?: string
+          socials: Array<{
+            label?: string
+            link: {
+              type: string | null
+              url: string | null
+              blank: boolean | null
+              parameters: string | null
+              anchor: string | null
+            }
+            _key: string
+          }> | null
+        }
+    > | null
+    policies: Array<{
+      _key: string
+      _type: 'navigationLink'
+      name?: string
+      link: {
+        type: string | null
+        url: string | null
+        blank: boolean | null
+        parameters: string | null
+        anchor: string | null
+      }
+    }> | null
+  } | null
+} | null
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    content[]{\n      ...,\n      _type == "hero" => {\n        ...,\n        buttons[]{\n          ...,\n          "link": { \n  "type": link.type,\n  "url": coalesce(link.url, link.internalLink->slug.current),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        }\n      },\n      _type == "projectOverview" => {\n        ...,\n        projects[]->{\n  _id,\n  title,\n  description,\n  thumbnail { \n  hotspot,\n  crop,\n  "assetRef": asset._ref,\n  "url": asset->url,\n  "altText": coalesce(asset->altText[$language], ""),\n  "title": coalesce(asset->title[$language], ""),\n  "description": coalesce(asset->description[$language], ""),\n },\n  "link": { \n  "type": link.type,\n  "url": coalesce(link.url, link.internalLink->slug.current),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n}\n      },\n      _type == "testimonialSlider" => {\n        ...,\n        testimonials[]->{\n  _id,\n  name,\n  client,\n  description,\n}\n      },\n    },\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
+    '\n  *[\n    _type in ["page"] &&\n    slug.current == $slug &&\n    language == $language\n  ][0]{\n    ...,\n    content[]{\n      ...,\n      _type == "hero" => {\n        ...,\n        buttons[]{\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        }\n      },\n      _type == "projectOverview" => {\n        ...,\n        projects[]->{\n  _id,\n  title,\n  description,\n  thumbnail { \n  hotspot,\n  crop,\n  "assetRef": asset._ref,\n  "url": asset->url,\n  "altText": coalesce(asset->altText[$language], ""),\n  "title": coalesce(asset->title[$language], ""),\n  "description": coalesce(asset->description[$language], ""),\n },\n  "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n}\n      },\n      _type == "testimonialSlider" => {\n        ...,\n        testimonials[]->{\n  _id,\n  name,\n  client,\n  description,\n}\n      },\n    },\n    "seo": {\n      "_type": "seo",\n      "title": coalesce(seo.title, ""),\n      "description": coalesce(seo.description,  ""),\n      "image": seo.image,\n      "keywords": coalesce(seo.keywords, []),\n    },\n  }\n': PageQueryResult
+    '\n  *[\n    _type == "config" &&\n    language == $language\n  ]{\n    navigation{\n      cta{\n        ...,\n        "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n      },\n      links[]{\n        ...,\n        _type == "navigationLink" => {\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        },\n      }\n    },\n    footer{\n      ...,\n      columns[]{\n        ...,\n        _type == "footerColumnEmail" => {\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        },\n        _type == "footerColumnAddress" => {\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        },\n        _type == "footerColumnSocials" => {\n          ...,\n          socials[]{\n            ...,\n            "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n          }\n        }\n      },\n      policies[]{\n        ...,\n        _type == "navigationLink" => {\n          ...,\n          "link": { \n  "type": link.type,\n  "url": select(\n    link.type == "email" => "mailto:" + link.email,\n    link.type == "phone" => "tel:" + link.phone,\n    coalesce(link.url, link.internalLink->slug.current)\n  ),\n  "blank": link.blank,\n  "parameters": link.parameters,\n  "anchor": link.anchor\n }\n        }\n      }\n    }\n  }[0]\n': ConfigQueryResult
   }
 }

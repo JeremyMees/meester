@@ -35,7 +35,7 @@ export interface ImageAsset {
 }
 
 export interface SanityLink {
-  type?: 'internal' | 'external' | null
+  type?: string | null
   url?: string | null
   blank?: boolean | null
   parameters?: string | null

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { data: config } = await useGlobalConfig()
+
 const isSmall = useMediaQuery('(max-width: 767px)')
 const mobileNavOpen = ref<boolean>(false)
 const header = ref<HTMLElement>()
@@ -8,13 +10,6 @@ onClickOutside(header, () => (mobileNavOpen.value = false))
 watch(isSmall, (v: boolean) => {
   if (!v && mobileNavOpen.value) mobileNavOpen.value = false
 })
-
-const links = [
-  { name: 'Work', href: '/#work' },
-  { name: 'Services', href: '/#services' },
-  { name: 'Process', href: '/#process' },
-  { name: 'Contact', href: '/contact' },
-]
 </script>
 
 <template>
@@ -28,28 +23,28 @@ const links = [
       </NuxtLinkLocale>
 
       <nav class="hidden md:flex gap-9">
-        <NuxtLinkLocale
-          v-for="link in links"
-          :key="link.name"
-          :to="link.href"
+        <SanityLink
+          v-for="item in config?.navigation?.links"
+          :key="item.name"
+          v-bind="item.link"
           class="meta hover:text-foreground transition-colors cursor-pointer"
         >
-          {{ link.name }}
-        </NuxtLinkLocale>
+          {{ item.name }}
+        </SanityLink>
       </nav>
 
       <div class="hidden md:flex items-center gap-9">
         <LocaleSwitch />
-        <NuxtLinkLocale
-          to="/contact"
+        <SanityLink
+          v-bind="config?.navigation?.cta?.link"
           class="group meta text-foreground border-b-[1.5px] border-primary pb-0.5 cursor-pointer hidden md:flex items-center gap-1"
         >
-          Start a project
+          {{ config?.navigation?.cta?.name }}
           <Icon
             name="tabler:arrow-right"
             class="size-4 group-hover:-rotate-45 transition-transform"
           />
-        </NuxtLinkLocale>
+        </SanityLink>
       </div>
 
       <div class="md:hidden flex items-center gap-9">
@@ -62,20 +57,24 @@ const links = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent class="w-42" align="end">
-            <DropdownMenuItem v-for="link in links" :key="link.name" as-child>
-              <NuxtLinkLocale :to="link.href">
-                {{ link.name }}
-              </NuxtLinkLocale>
+            <DropdownMenuItem
+              v-for="item in config?.navigation?.links"
+              :key="item.name"
+              as-child
+            >
+              <SanityLink v-bind="item.link">
+                {{ item.name }}
+              </SanityLink>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem as-child>
-              <NuxtLinkLocale to="/contact" class="group">
-                Start a project
+              <SanityLink v-bind="config?.navigation?.cta?.link" class="group">
+                {{ config?.navigation?.cta?.name }}
                 <Icon
                   name="tabler:arrow-right"
                   class="size-4 text-primary group-hover:-rotate-45 group-hover:text-white transition-all"
                 />
-              </NuxtLinkLocale>
+              </SanityLink>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

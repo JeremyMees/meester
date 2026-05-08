@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const socials = ['LinkedIn', 'Instagram']
+const { data: config } = await useGlobalConfig()
 </script>
 
 <template>
@@ -9,80 +9,84 @@ const socials = ['LinkedIn', 'Instagram']
     <div
       class="content-container grid grid-cols-1 md:grid-cols-3 gap-7 md:gap-14 items-start mb-20"
     >
-      <div>
-        <p
-          class="font-mono text-xs uppercase tracking-[0.15em] text-primary mb-3.5"
-        >
-          Get in touch
-        </p>
-        <NuxtLink
-          href="mailto:hello@meestersites.be"
-          class="font-serif text-[22px] leading-normal text-foreground border-b-[1.5px] border-primary"
-        >
-          hello@meestersites.be
-        </NuxtLink>
-      </div>
+      <template v-for="column in config?.footer?.columns" :key="column._key">
+        <div>
+          <p
+            class="font-mono text-xs uppercase tracking-[0.15em] mb-3.5"
+            :class="
+              column._type === 'footerColumnEmail'
+                ? 'text-primary'
+                : 'text-muted-foreground'
+            "
+          >
+            {{ column.title ?? '' }}
+          </p>
 
-      <div>
-        <p
-          class="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground mb-3.5"
-        >
-          Location
-        </p>
-        <p class="font-serif text-[22px] leading-normal text-foreground m-0">
-          Smodderpotstraat 15<br />3293 Kaggevinne, BE
-        </p>
-        <!-- <p class="meta mt-3">BE 0784.291.103</p> -->
-      </div>
+          <SanityLink
+            v-if="column._type === 'footerColumnEmail'"
+            v-bind="column.link"
+            class="font-serif text-[22px] leading-normal text-foreground border-b-[1.5px] border-primary"
+          >
+            {{ column.email ?? '' }}
+          </SanityLink>
 
-      <div>
-        <p
-          class="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground mb-3.5"
-        >
-          Socials
-        </p>
-        <ul
-          class="m-0 list-none p-0 font-sans text-base leading-[2.1] text-foreground"
-        >
-          <li v-for="social in socials" :key="social">
-            <NuxtLink
-              target="_blank"
-              class="hover:text-primary transition-colors cursor-pointer flex items-center gap-1"
-            >
-              {{ social }}
-              <Icon name="tabler:arrow-up-right" />
-            </NuxtLink>
-          </li>
-        </ul>
-      </div>
+          <SanityLink
+            v-else-if="column._type === 'footerColumnAddress'"
+            v-bind="column.link"
+            class="font-serif text-[22px] leading-normal text-foreground m-0 block max-w-50"
+          >
+            {{ column.address ?? '' }}
+          </SanityLink>
+
+          <ul
+            v-else-if="column._type === 'footerColumnSocials'"
+            class="m-0 list-none p-0 font-sans text-base leading-[2.1] text-foreground"
+          >
+            <li v-for="social in column.socials" :key="social._key">
+              <SanityLink
+                v-bind="social.link"
+                class="hover:text-primary transition-colors flex items-center gap-1 w-fit"
+              >
+                {{ social.label }}
+                <Icon name="tabler:arrow-up-right" />
+              </SanityLink>
+            </li>
+          </ul>
+        </div>
+      </template>
     </div>
 
     <div
-      class="content-container font-serif font-normal text-[clamp(80px,18vw,220px)] leading-[0.85] tracking-[-0.04em] text-foreground mb-10"
+      class="content-container mb-10 [&_p]:font-serif font-normal text-foreground [&_p]:text-[clamp(80px,18vw,220px)] [&_p]:leading-[0.85] [&_p]:tracking-[-0.04em]"
     >
-      Meester <em class="text-primary">Sites.</em>
+      <Richtext
+        :value="config?.footer?.title"
+        :components="{
+          marks: {
+            em: (_, { slots }) =>
+              h('em', { class: 'italic text-primary' }, slots.default?.()),
+          },
+        }"
+      />
     </div>
 
     <div
       class="content-container flex flex-col md:flex-row justify-between gap-3 border-t border-border pt-6 meta"
     >
       <span>
-        ©{{ new Date().getFullYear() }} Meester Sites — All rights reserved
+        ©{{ new Date().getFullYear() }} Meester Sites —
+        {{ $t('allRightsReserved') }}
       </span>
 
       <span class="flex gap-4">
-        <NuxtLinkLocale
-          to="/policies/privacy"
-          class="hover:text-foreground cursor-pointer"
+        <SanityLink
+          v-for="policy in config?.footer?.policies"
+          :key="policy._key"
+          v-bind="policy.link"
+          class="hover:text-foreground"
         >
-          Privacy
-        </NuxtLinkLocale>
-        <NuxtLinkLocale
-          to="/policies/cookie"
-          class="hover:text-foreground cursor-pointer"
-        >
-          Cookie
-        </NuxtLinkLocale>
+          {{ policy.name }}
+        </SanityLink>
       </span>
     </div>
   </footer>
