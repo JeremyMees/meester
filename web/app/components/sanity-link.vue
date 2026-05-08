@@ -1,5 +1,11 @@
 <script lang="ts" setup>
-import { withQuery, withFragment, parseQuery, parseURL } from 'ufo'
+import {
+  withQuery,
+  withFragment,
+  parseQuery,
+  parseURL,
+  withLeadingSlash,
+} from 'ufo'
 import type { SanityLink } from '~/types/blocks'
 import type { HTMLAttributes } from 'vue'
 
@@ -19,7 +25,7 @@ const to = computed(() => {
   if (protocol && BLOCKED_PROTOCOLS.has(protocol.replace(':', '')))
     return undefined
 
-  let result = urlTo
+  let result = withLeadingSlash(urlTo)
 
   if (props.parameters) {
     const params = stripStega(props.parameters)
