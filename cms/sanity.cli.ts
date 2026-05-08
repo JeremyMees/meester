@@ -10,8 +10,8 @@ export default defineCliConfig({
     appId: 'b3bgmqpovbrt3mez5ywnzcv6',
   },
   typegen: {
-    path: '../web/app/utils/sanity-queries.ts',
+    path: '../web/shared/utils/sanity-queries.ts',
     schema: './schema.json',
-    generates: '../web/app/types/sanity.ts',
+    generates: '../web/shared/types/sanity.ts',
   },
 })

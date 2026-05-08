@@ -126,3 +126,25 @@ export const configQuery = groq`
     }
   }[0]
 `
+
+export const metadataQuery = groq`
+  *[_type == "translation.metadata"] {
+    "translations": translations[defined(value->slug.current)] {
+      "_id": value->_id,
+      "slug": value->slug.current,
+      "language": value->language
+    }
+  }
+`
+
+export const unlinkedQuery = groq`
+  *[
+    _type in ["page", "policy"] &&
+    defined(slug.current) &&
+    !(_id in $linkedIds)
+  ] {
+    _id,
+    "slug": slug.current,
+    language
+  }
+`
