@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'shadcn-nuxt',
     '@nuxtjs/sanity',
+    '@nuxtjs/seo',
     'motion-v/nuxt',
   ],
 
@@ -47,6 +48,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    baseUrl: process.env.NUXT_PUBLIC_BASE_URL,
     defaultLocale: 'nl',
     strategy: 'prefix_except_default',
     locales: [
@@ -82,6 +84,10 @@ export default defineNuxtConfig({
         dir: resolve('./app/assets/vectors'),
       },
     ],
+  },
+
+  sitemap: {
+    sources: ['/api/__sitemap__/urls'],
   },
 
   vite: {
