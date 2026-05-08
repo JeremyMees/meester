@@ -37,13 +37,21 @@ const testimonialFragment = `
 
 export const pageQuery = groq`
   *[
-    _type in ["page"] &&
+    _type in ["page", "policy"] &&
     slug.current == $slug &&
     language == $language
   ][0]{
     ...,
     content[]{
       ...,
+      _type == "buttonLink" => {
+        ...,
+        "link": { ${linkFragment} }
+      },
+      _type == "inlineLink" => {
+        ...,
+        "link": { ${linkFragment} }
+      },
       _type == "hero" => {
         ...,
         buttons[]{
