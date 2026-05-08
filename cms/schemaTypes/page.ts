@@ -19,6 +19,13 @@ export const pageType = defineType({
         isUnique: isUniqueOtherThanLanguage,
         source: 'title',
       },
+      validation: rule =>
+        rule.required() &&
+        rule.custom(value => {
+          return value && value.current?.startsWith('/')
+            ? true
+            : 'Slug must start with /'
+        }),
     }),
     defineField({
       name: 'content',
@@ -51,4 +58,4 @@ export const pageType = defineType({
   },
 })
 
-export const pageDocumentTypes = [{ type: 'page' }]
+export const pageDocumentTypes = [{ type: 'page' }, { type: 'policy' }]
