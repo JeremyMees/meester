@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://meester-seven.vercel.app
+      url: https://meestersites.be
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -93,7 +93,5 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
-      - name: Install Vercel CLI
-        run: pnpm add -g vercel@latest
       - name: Deploy to Vercel
-        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: pnpm dlx vercel@latest deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
