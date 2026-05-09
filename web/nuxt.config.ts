@@ -96,6 +96,7 @@ export default defineNuxtConfig({
     name: defaultSeo.name,
     description: defaultSeo.description,
     trailingSlash: false,
+    indexable: true,
   },
 
   schemaOrg: {
@@ -132,6 +133,7 @@ export default defineNuxtConfig({
       include: [
         '@nuxtjs/sanity',
         '@sanity/client',
+        '@sanity/image-url',
         '@portabletext/vue',
         'class-variance-authority',
         'reka-ui',

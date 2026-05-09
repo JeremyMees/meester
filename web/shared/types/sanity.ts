@@ -260,7 +260,6 @@ export type Seo = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-  keywords?: Array<string>
 }
 
 export type Policy = {
@@ -1165,7 +1164,7 @@ export type PageQueryResult =
           crop?: SanityImageCrop
           _type: 'image'
         } | null
-        keywords: Array<string> | Array<never>
+        keywords: Array<never>
       }
       language?: string
     }
@@ -1294,7 +1293,7 @@ export type PageQueryResult =
           crop?: SanityImageCrop
           _type: 'image'
         } | null
-        keywords: Array<string> | Array<never>
+        keywords: Array<never>
       }
       language?: string
     }

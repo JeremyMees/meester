@@ -18,8 +18,12 @@ const { data } = await useSanityQuery<PageQueryResult>(pageQuery, {
 const isHome = computed(() => stripStega(data.value?.documentTitle) === 'Home')
 
 useHead({
+  htmlAttrs: { lang: locale },
+  link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   title: isHome.value ? undefined : stripStega(data.value?.documentTitle),
 })
+
+useSeo(() => data.value?.seo)
 </script>
 
 <template>

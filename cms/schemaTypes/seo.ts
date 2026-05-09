@@ -20,11 +20,6 @@ export const seoType = defineType({
       description: 'Should be 1200 x 630 pixels for best results',
       type: 'image',
     }),
-    defineField({
-      name: 'keywords',
-      type: 'array',
-      of: [{ type: 'string' }],
-    }),
   ],
   options: {
     collapsible: true,
