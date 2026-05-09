@@ -9,7 +9,7 @@ export const pageType = defineType({
   icon: DocumentIcon,
   fields: [
     defineField({
-      name: 'title',
+      name: 'documentTitle',
       type: 'string',
     }),
     defineField({
@@ -17,7 +17,7 @@ export const pageType = defineType({
       type: 'slug',
       options: {
         isUnique: isUniqueOtherThanLanguage,
-        source: 'title',
+        source: 'documentTitle',
       },
       validation: rule =>
         rule.required() &&
@@ -44,14 +44,14 @@ export const pageType = defineType({
   ],
   preview: {
     select: {
-      title: 'title',
+      documentTitle: 'documentTitle',
       language: 'language',
     },
     prepare(selection) {
-      const { title, language } = selection
+      const { documentTitle, language } = selection
 
       return {
-        title: `${title ?? 'No title'} (${language})`,
+        title: `${documentTitle ?? 'No title'} (${language})`,
         subtitle: 'Page component',
       }
     },

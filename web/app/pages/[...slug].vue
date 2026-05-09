@@ -14,6 +14,12 @@ const { data } = await useSanityQuery<PageQueryResult>(pageQuery, {
   slug: slug.value,
   language: locale.value,
 })
+
+const isHome = computed(() => stripStega(data.value?.documentTitle) === 'Home')
+
+useHead({
+  title: isHome.value ? undefined : stripStega(data.value?.documentTitle),
+})
 </script>
 
 <template>

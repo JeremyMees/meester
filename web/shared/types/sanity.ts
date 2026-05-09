@@ -399,7 +399,7 @@ export type Page = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
+  documentTitle?: string
   slug?: Slug
   content?: PageBuilder
   seo?: Seo
@@ -916,7 +916,7 @@ export type PageQueryResult =
       _createdAt: string
       _updatedAt: string
       _rev: string
-      title?: string
+      documentTitle?: string
       slug?: Slug
       content: Array<
         | {
