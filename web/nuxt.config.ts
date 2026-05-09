@@ -1,5 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 import { createResolver } from 'nuxt/kit'
+import { defaultSeo } from './app/utils/seo'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -88,6 +89,41 @@ export default defineNuxtConfig({
 
   sitemap: {
     sources: ['/api/__sitemap__/urls'],
+  },
+
+  site: {
+    url: process.env.NUXT_PUBLIC_BASE_URL,
+    name: defaultSeo.name,
+    description: defaultSeo.description,
+    trailingSlash: false,
+  },
+
+  schemaOrg: {
+    identity: {
+      type: 'Organization',
+      name: defaultSeo.name,
+      description: defaultSeo.description,
+      logo: defaultSeo.logo,
+      email: defaultSeo.email,
+      telephone: defaultSeo.telephone,
+      contactPoint: {
+        telephone: defaultSeo.telephone,
+        contactType: 'Customer Service',
+        email: defaultSeo.email,
+        availableLanguage: ['Dutch', 'English'],
+      },
+      sameAs: [],
+      address: {
+        addressCountry: 'Belgium',
+        addressLocality: 'Kaggevinne',
+        postalCode: '3293',
+        streetAddress: 'Smodderpotstraat 15',
+      },
+    },
+  },
+
+  ogImage: {
+    enabled: false,
   },
 
   vite: {
