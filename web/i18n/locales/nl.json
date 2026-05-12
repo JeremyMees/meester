@@ -5,5 +5,48 @@
   "allRightsReserved": "Alle rechten voorbehouden",
   "effective": "Ingangsdatum",
   "revised": "Herzien",
-  "version": "Versie"
+  "version": "Versie",
+  "contactForm": {
+    "type": {
+      "label": "Dit is een ...",
+      "newProject": "Nieuw project",
+      "maintenance": "Onderhoud / seo",
+      "collaboration": "Samenwerking",
+      "justSayHi": "Gewoon gedag zeggen"
+    },
+    "name": "Je naam",
+    "company": "Bedrijf / Studio",
+    "email": "E-mail",
+    "category": {
+      "label": "Wat heb je nodig",
+      "pick": "Kies er één",
+      "webDesign": "Webdesign",
+      "webDevelopment": "Webontwikkeling",
+      "seo": "SEO & Performance",
+      "maintenance": "Onderhoud"
+    },
+    "timeline": {
+      "label": "Tijdlijn",
+      "asap": "Zo snel mogelijk",
+      "1-3 months": "1-3 maanden",
+      "3-6 months": "3-6 maanden",
+      "just exploring": "Gewoon verkennen"
+    },
+    "tellMeMore": "Vertel me meer",
+    "referral": "Hoe heb je over mij gehoord?",
+    "success": {
+      "title": "Bedankt, {name}.",
+      "message": "Je bericht is in mijn inbox. Ik neem binnen twee werkdagen contact met je op.",
+      "anotherMessage": "Stuur nog een bericht"
+    }
+  },
+  "validation": {
+    "required": "Dit veld is verplicht",
+    "minLength": "Minimaal {min} tekens vereist",
+    "maxLength": "Maximaal {max} tekens toegestaan",
+    "minItems": "Kies minstens {min} optie",
+    "maxItems": "Kies maximaal {max} optie",
+    "invalidEmail": "Voer een geldig e-mailadres in",
+    "invalidOption": "Ongeldige optie geselecteerd"
+  }
 }

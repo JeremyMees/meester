@@ -12,5 +12,6 @@ export const pageBuilderType = defineType({
     defineArrayMember({ type: 'servicesGrid' }),
     defineArrayMember({ type: 'processSteps' }),
     defineArrayMember({ type: 'testimonialSlider' }),
+    defineArrayMember({ type: 'contactForm' }),
   ],
 })

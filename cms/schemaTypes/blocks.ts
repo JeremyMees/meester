@@ -276,6 +276,16 @@ const contactFormType = defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'terms',
+      type: 'text',
+      validation: rule => rule.required(),
+    }),
+    defineField({
+      name: 'submit',
+      type: 'string',
+      validation: rule => rule.required(),
+    }),
   ],
   preview: {
     prepare() {

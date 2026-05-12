@@ -475,6 +475,8 @@ export type ContactForm = {
   _type: 'contactForm'
   email?: ContactFormEmail
   location?: Location
+  terms?: string
+  submit?: string
 }
 
 export type TestimonialSlider = {
@@ -957,6 +959,8 @@ export type PageQueryResult =
             _type: 'contactForm'
             email?: ContactFormEmail
             location?: Location
+            terms?: string
+            submit?: string
           }
         | {
             _key: string

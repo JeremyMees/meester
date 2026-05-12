@@ -31,6 +31,9 @@ export default defineNuxtConfig({
   imports: { dirs: ['~/types/*.ts'] },
 
   runtimeConfig: {
+    plunkApiKey: process.env.NUXT_PLUNK_API_KEY,
+    mailTo: process.env.NUXT_MAIL_TO,
+    plunkTemplateId: process.env.NUXT_PLUNK_TEMPLATE_ID,
     public: {
       studioUrl: process.env.NUXT_SANITY_STUDIO_URL,
     },
