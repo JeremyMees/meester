@@ -36,6 +36,8 @@ export default defineNuxtConfig({
     plunkTemplateId: process.env.NUXT_PLUNK_TEMPLATE_ID,
     public: {
       studioUrl: process.env.NUXT_SANITY_STUDIO_URL,
+      c15tUrl: process.env.NUXT_PUBLIC_C15T_URL,
+      gId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID,
     },
   },
 
