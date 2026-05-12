@@ -18,6 +18,18 @@ import '@sanity/client'
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: schema.json
+export type ContactFormEmail = {
+  preTitle?: string
+  email?: string
+  subtitle?: string
+}
+
+export type Location = {
+  preTitle?: string
+  location?: string
+  subtitle?: string
+}
+
 export type PageReference = {
   _ref: string
   _type: 'reference'
@@ -173,6 +185,13 @@ export type TestimonialSliderReference = {
   [internalGroqTypeReferenceTo]?: 'testimonialSlider'
 }
 
+export type ContactFormReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'contactForm'
+}
+
 export type ButtonLinkReference = {
   _ref: string
   _type: 'reference'
@@ -231,6 +250,7 @@ export type InternationalizedArrayReferenceValue = {
     | ServicesGridReference
     | ProcessStepsReference
     | TestimonialSliderReference
+    | ContactFormReference
     | ButtonLinkReference
     | InlineLinkReference
     | PageBuilderReference
@@ -424,6 +444,9 @@ export type PageBuilder = Array<
   | ({
       _key: string
     } & TestimonialSlider)
+  | ({
+      _key: string
+    } & ContactForm)
 >
 
 export type InlineLink = {
@@ -446,6 +469,12 @@ export type ButtonLink = {
     | 'destructive'
   size?: 'default' | 'sm' | 'lg' | 'xl' | 'icon' | 'icon-sm' | 'icon-lg'
   icon?: Icon
+}
+
+export type ContactForm = {
+  _type: 'contactForm'
+  email?: ContactFormEmail
+  location?: Location
 }
 
 export type TestimonialSlider = {
@@ -500,6 +529,7 @@ export type ProcessSteps = {
     description?: string
     _key: string
   }>
+  excludeStepLabels?: boolean
 }
 
 export type ServicesGrid = {
@@ -844,6 +874,8 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
+  | ContactFormEmail
+  | Location
   | PageReference
   | PolicyReference
   | Link
@@ -865,6 +897,7 @@ export type AllSanitySchemaTypes =
   | ServicesGridReference
   | ProcessStepsReference
   | TestimonialSliderReference
+  | ContactFormReference
   | ButtonLinkReference
   | InlineLinkReference
   | PageBuilderReference
@@ -883,6 +916,7 @@ export type AllSanitySchemaTypes =
   | PageBuilder
   | InlineLink
   | ButtonLink
+  | ContactForm
   | TestimonialSlider
   | ProcessSteps
   | ServicesGrid
@@ -918,6 +952,12 @@ export type PageQueryResult =
       documentTitle?: string
       slug?: Slug
       content: Array<
+        | {
+            _key: string
+            _type: 'contactForm'
+            email?: ContactFormEmail
+            location?: Location
+          }
         | {
             _key: string
             _type: 'hero'
@@ -1069,6 +1109,7 @@ export type PageQueryResult =
               description?: string
               _key: string
             }>
+            excludeStepLabels?: boolean
           }
         | {
             _key: string

@@ -183,6 +183,11 @@ const processStepsType = defineType({
       ],
       validation: rule => rule.max(4),
     }),
+    defineField({
+      name: 'excludeStepLabels',
+      type: 'boolean',
+      initialValue: false,
+    }),
   ],
 })
 
@@ -225,6 +230,62 @@ const testimonialSliderType = defineType({
   },
 })
 
+const contactFormType = defineType({
+  name: 'contactForm',
+  title: 'Contact Form',
+  type: 'object',
+  icon: ComponentIcon,
+  fields: [
+    defineField({
+      name: 'email',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'preTitle',
+          type: 'string',
+          validation: rule => rule.required(),
+        }),
+        defineField({
+          name: 'email',
+          type: 'string',
+          validation: rule => rule.required(),
+        }),
+        defineField({
+          name: 'subtitle',
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'location',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'preTitle',
+          type: 'string',
+          validation: rule => rule.required(),
+        }),
+        defineField({
+          name: 'location',
+          type: 'string',
+          validation: rule => rule.required(),
+        }),
+        defineField({
+          name: 'subtitle',
+          type: 'string',
+        }),
+      ],
+    }),
+  ],
+  preview: {
+    prepare() {
+      return {
+        title: 'Contact Form',
+      }
+    },
+  },
+})
+
 export const blockTypes = [
   heroType,
   marqueeType,
@@ -232,4 +293,5 @@ export const blockTypes = [
   servicesGridType,
   processStepsType,
   testimonialSliderType,
+  contactFormType,
 ]

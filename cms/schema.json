@@ -1,6 +1,66 @@
 [
   {
     "type": "type",
+    "name": "contactForm.email",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "preTitle": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "email": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "subtitle": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "location",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "preTitle": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "location": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "subtitle": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
     "name": "page.reference",
     "value": {
       "type": "object",
@@ -722,6 +782,36 @@
   },
   {
     "type": "type",
+    "name": "contactForm.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "contactForm"
+    }
+  },
+  {
+    "type": "type",
     "name": "buttonLink.reference",
     "value": {
       "type": "object",
@@ -969,6 +1059,10 @@
               {
                 "type": "inline",
                 "name": "testimonialSlider.reference"
+              },
+              {
+                "type": "inline",
+                "name": "contactForm.reference"
               },
               {
                 "type": "inline",
@@ -2077,6 +2171,21 @@
               "type": "inline",
               "name": "testimonialSlider"
             }
+          },
+          {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "contactForm"
+            }
           }
         ]
       }
@@ -2220,6 +2329,38 @@
           "value": {
             "type": "inline",
             "name": "icon"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "name": "contactForm",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "contactForm"
+          }
+        },
+        "email": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "contactForm.email"
+          },
+          "optional": true
+        },
+        "location": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "location"
           },
           "optional": true
         }
@@ -2539,6 +2680,13 @@
                 }
               }
             }
+          },
+          "optional": true
+        },
+        "excludeStepLabels": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
           },
           "optional": true
         }

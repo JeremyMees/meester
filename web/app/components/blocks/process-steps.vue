@@ -13,17 +13,31 @@ defineProps<ProcessSteps & BlockMeta>()
       >
         {{ preTitle ?? '' }}
       </p>
-      <Richtext :value="title" />
+      <Richtext
+        :value="title"
+        :components="{
+          marks: {
+            em: (_, { slots }) =>
+              h('em', { class: 'italic text-primary' }, slots.default?.()),
+          },
+        }"
+      />
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div
+      class="grid md:grid-cols-2 gap-8"
+      :class="{
+        'lg:grid-cols-3': (steps?.length ?? 0) === 3,
+        'lg:grid-cols-4': (steps?.length ?? 0) >= 4,
+      }"
+    >
       <div
         v-for="(step, i) in steps ?? []"
         :key="step.title"
         class="border-t border-foreground pt-6"
       >
         <p class="meta mb-5 text-primary">
-          {{ $t('step') }} {{ generateIndex(i) }}
+          {{ excludeStepLabels ? '' : $t('step') }} {{ generateIndex(i) }}
         </p>
         <h3 class="mb-3 font-serif text-3xl font-normal tracking-tight">
           {{ step.title }}
