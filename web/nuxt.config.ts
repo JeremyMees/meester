@@ -138,6 +138,8 @@ export default defineNuxtConfig({
         'reka-ui',
         'clsx',
         'tailwind-merge',
+        '@vee-validate/zod',
+        'vee-validate',
       ],
     },
   },
