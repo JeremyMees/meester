@@ -8,6 +8,12 @@
   "version": "Versie",
   "goToWebsite": "Ga naar {name} website",
   "menu": "Menu",
+  "errorPage": {
+    "preTitle": "Error 404 · Pagina niet gevonden.",
+    "title": "Deze pagina is verdwaald.",
+    "message": "De link is verbroken, de pagina is verwijderd, of iemand heeft iets hoopvols in de adresbalk getypt. Hoe dan ook laten we je terugbrengen naar iets dat bestaat.",
+    "backHome": "Terug naar home"
+  },
   "contactForm": {
     "type": {
       "label": "Dit is een ...",

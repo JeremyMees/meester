@@ -8,6 +8,12 @@
   "version": "Version",
   "goToWebsite": "Go to {name} website",
   "menu": "Menu",
+  "errorPage": {
+    "preTitle": "Error 404 · Page not found.",
+    "title": "This page has wandered off.",
+    "message": "The link is broken, the page was retired, or someone typed something hopeful into the address bar. Either way — let's get you back to something that exists.",
+    "backHome": "Back home"
+  },
   "contactForm": {
     "type": {
       "label": "This is a ...",

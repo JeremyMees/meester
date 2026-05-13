@@ -41,4 +41,5 @@ useSeo(() => data.value?.seo)
       v-bind="data"
     />
   </div>
+  <ErrorPage v-else />
 </template>
