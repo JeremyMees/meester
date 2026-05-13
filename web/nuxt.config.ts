@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     '@nuxtjs/sanity',
     '@nuxtjs/seo',
     'motion-v/nuxt',
+    '@sentry/nuxt/module',
   ],
 
   css: ['~/assets/css/tailwind.css'],
@@ -145,5 +146,15 @@ export default defineNuxtConfig({
         'zod',
       ],
     },
+  },
+
+  sentry: {
+    org: 'kees',
+    project: 'meestersites',
+    autoInjectServerSentry: 'top-level-import',
+  },
+
+  sourcemap: {
+    client: 'hidden',
   },
 })
