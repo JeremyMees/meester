@@ -52,7 +52,7 @@ watch(isSmall, (v: boolean) => {
 
         <DropdownMenu v-model:open="mobileNavOpen">
           <DropdownMenuTrigger as-child>
-            <Button size="icon-sm" variant="outline">
+            <Button size="icon-sm" variant="outline" :aria-label="$t('menu')">
               <Icon name="tabler:menu" />
             </Button>
           </DropdownMenuTrigger>

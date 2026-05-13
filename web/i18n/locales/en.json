@@ -6,6 +6,8 @@
   "effective": "Effective",
   "revised": "Revised",
   "version": "Version",
+  "goToWebsite": "Go to {name} website",
+  "menu": "Menu",
   "contactForm": {
     "type": {
       "label": "This is a ...",

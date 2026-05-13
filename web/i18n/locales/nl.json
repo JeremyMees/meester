@@ -6,6 +6,8 @@
   "effective": "Ingangsdatum",
   "revised": "Herzien",
   "version": "Versie",
+  "goToWebsite": "Ga naar {name} website",
+  "menu": "Menu",
   "contactForm": {
     "type": {
       "label": "Dit is een ...",

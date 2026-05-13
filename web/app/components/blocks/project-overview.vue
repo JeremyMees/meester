@@ -74,6 +74,7 @@ function onMouseMove(e: MouseEvent) {
 
         <SanityLink
           v-bind="project.link"
+          :aria-label="$t('goToWebsite', { name: project.title })"
           class="hidden md:block text-muted-foreground group-hover:text-primary transition-colors after:absolute after:inset-0"
         >
           <Icon name="tabler:external-link" />
@@ -86,6 +87,7 @@ function onMouseMove(e: MouseEvent) {
 
           <SanityLink
             v-bind="project.link"
+            :aria-label="$t('goToWebsite', { name: project.title })"
             class="text-muted-foreground group-hover:text-primary transition-colors after:absolute after:inset-0"
           >
             <Icon name="tabler:external-link" />
