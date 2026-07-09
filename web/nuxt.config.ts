@@ -40,6 +40,11 @@ export default defineNuxtConfig({
         },
       },
     },
+    sanity: {
+      // Pages are ISR-cached, so renders are rare — skip Sanity's API CDN to
+      // guarantee webhook revalidations always fetch just-published content.
+      useCdn: false,
+    },
   },
 
   runtimeConfig: {
