@@ -5,9 +5,10 @@ const route = useRoute()
 const { locale } = useI18n()
 
 const slug = computed(() => {
-  return Array.isArray(route.params.slug)
-    ? withLeadingSlash(String(route.params.slug.join('/')))
-    : withLeadingSlash(String(route.params.slug))
+  const param = route.params.slug ?? ''
+  return Array.isArray(param)
+    ? withLeadingSlash(param.join('/'))
+    : withLeadingSlash(param)
 })
 
 const { data } = await useSanityQuery<PageQueryResult>(pageQuery, {
