@@ -20,7 +20,7 @@ defineProps<Marquee & BlockMeta>()
           class="inline-flex items-center gap-14"
         >
           {{ item }}
-          <Icon name="meester:sparkle" class="not-italic text-primary" />
+          <SvgSparkle class="not-italic text-primary" />
         </span>
       </div>
     </div>

@@ -1,8 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
-import { createResolver } from 'nuxt/kit'
 import { defaultSeo } from './app/utils/seo'
-
-const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -93,15 +90,6 @@ export default defineNuxtConfig({
       projectId: process.env.NUXT_SANITY_PROJECT_ID ?? '',
       dataset: process.env.NUXT_SANITY_DATASET ?? '',
     },
-  },
-
-  icon: {
-    customCollections: [
-      {
-        prefix: 'meester',
-        dir: resolve('./app/assets/vectors'),
-      },
-    ],
   },
 
   sitemap: {
