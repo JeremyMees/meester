@@ -1,4 +1,5 @@
 import { isValidSignature, SIGNATURE_HEADER_NAME } from '@sanity/webhook'
+import { withoutTrailingSlash } from 'ufo'
 
 export default defineEventHandler(async event => {
   const { revalidateSecret, vercelBypassToken } = useRuntimeConfig(event)
@@ -22,23 +23,22 @@ export default defineEventHandler(async event => {
   }
 
   const urls = await $fetch<{ loc: string }[]>('/api/__sitemap__/urls')
+  const paths = [...new Set(urls.map(({ loc }) => withoutTrailingSlash(loc)))]
 
   const results = await Promise.allSettled(
-    urls.map(({ loc }) =>
-      $fetch.raw(new URL(loc, url).href, {
+    paths.map(path =>
+      $fetch.raw(new URL(path, url).href, {
         headers: { 'x-prerender-revalidate': vercelBypassToken },
       }),
     ),
   )
 
-  const failed = urls
-    .map(({ loc }, index) =>
-      results[index]?.status === 'rejected' ? loc : null,
-    )
-    .filter((loc): loc is string => loc !== null)
+  const failed = paths.filter(
+    (_, index) => results[index]?.status === 'rejected',
+  )
 
   return {
-    revalidated: urls.length - failed.length,
+    revalidated: paths.length - failed.length,
     failed,
   }
 })
