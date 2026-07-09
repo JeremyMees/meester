@@ -31,11 +31,28 @@ export default defineNuxtConfig({
 
   imports: { dirs: ['~/types/*.ts'] },
 
+  $production: {
+    routeRules: {
+      '/**': { isr: 3600 },
+      '/api/**': { isr: false },
+    },
+    nitro: {
+      vercel: {
+        config: {
+          bypassToken: process.env.NUXT_VERCEL_BYPASS_TOKEN,
+        },
+      },
+    },
+  },
+
   runtimeConfig: {
+    revalidateSecret: process.env.NUXT_REVALIDATE_SECRET,
+    vercelBypassToken: process.env.NUXT_VERCEL_BYPASS_TOKEN,
     plunkApiKey: process.env.NUXT_PLUNK_API_KEY,
     mailTo: process.env.NUXT_MAIL_TO,
     plunkTemplateId: process.env.NUXT_PLUNK_TEMPLATE_ID,
     public: {
+      url: process.env.NUXT_PUBLIC_BASE_URL,
       studioUrl: process.env.NUXT_SANITY_STUDIO_URL,
       c15tUrl: process.env.NUXT_PUBLIC_C15T_URL,
       gId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID,
