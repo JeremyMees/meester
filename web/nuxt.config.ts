@@ -30,7 +30,7 @@ export default defineNuxtConfig({
 
   $production: {
     routeRules: {
-      '/**': { isr: 3600 },
+      '/**': { isr: true },
       '/api/**': { isr: false },
     },
     nitro: {

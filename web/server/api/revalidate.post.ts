@@ -1,6 +1,14 @@
 import { isValidSignature, SIGNATURE_HEADER_NAME } from '@sanity/webhook'
 import { withoutTrailingSlash } from 'ufo'
 
+const PAGE_TYPES = new Set(['page', 'policy'])
+
+interface WebhookPayload {
+  _type?: string
+  slug?: string
+  language?: string
+}
+
 export default defineEventHandler(async event => {
   const { revalidateSecret, vercelBypassToken } = useRuntimeConfig(event)
   const { url } = useRuntimeConfig(event).public
@@ -22,8 +30,16 @@ export default defineEventHandler(async event => {
     })
   }
 
-  const urls = await $fetch<{ loc: string }[]>('/api/__sitemap__/urls')
-  const paths = [...new Set(urls.map(({ loc }) => withoutTrailingSlash(loc)))]
+  const payload = parsePayload(body)
+
+  const paths =
+    payload &&
+    payload._type &&
+    PAGE_TYPES.has(payload._type) &&
+    payload.slug &&
+    payload.language
+      ? [withoutTrailingSlash(toPath(payload.slug, payload.language))]
+      : await allPaths()
 
   const results = await Promise.allSettled(
     paths.map(path =>
@@ -38,7 +54,21 @@ export default defineEventHandler(async event => {
   )
 
   return {
+    scope: paths.length === 1 && payload?._type ? 'document' : 'site',
     revalidated: paths.length - failed.length,
     failed,
   }
 })
+
+function parsePayload(body: string): WebhookPayload | null {
+  try {
+    return JSON.parse(body) as WebhookPayload
+  } catch {
+    return null
+  }
+}
+
+async function allPaths(): Promise<string[]> {
+  const urls = await $fetch<{ loc: string }[]>('/api/__sitemap__/urls')
+  return [...new Set(urls.map(({ loc }) => withoutTrailingSlash(loc)))]
+}
